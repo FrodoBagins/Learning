@@ -1,0 +1,6 @@
+pies
+dog
+kot
+cat
+PL_1
+ANG_1

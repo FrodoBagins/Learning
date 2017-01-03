@@ -27,6 +27,11 @@ public class program {
 		pr.showEventDemo();
 		
 		
+		DataBase db = DataBase.getDataBase();
+		db.createWordsPair("PL_1", "ANG_1");
+		db.save();
+		
+		
 			
 	}
 		
