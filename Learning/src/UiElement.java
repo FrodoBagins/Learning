@@ -1,6 +1,10 @@
+import java.awt.event.ActionListener;
 
-public interface UiElement {
+import javax.swing.JComponent;
+
+public interface UiElement{
 	
-	public UiElement createElement(String str1, String str2);
-
+	public JComponent getElement();
+    public void listener(ActionListener omg);
+    public String getText();
 }
