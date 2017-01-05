@@ -58,6 +58,8 @@ public class Program extends JFrame{
 		   directionComboBox.addItem("ANG -> PL");//index 1
 		   
 		   
+		   
+		   
 		   JButton crudOperationsButton = new JButton("Baza słów");
 		   crudOperationsButton.setBounds(400, 300, 120, 25);
 		   
