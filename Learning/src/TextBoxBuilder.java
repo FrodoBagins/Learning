@@ -1,3 +1,4 @@
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class TextBoxBuilder implements Builder{
@@ -21,6 +22,12 @@ public class TextBoxBuilder implements Builder{
 	public void addButton(String button) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public JPanel getPanel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

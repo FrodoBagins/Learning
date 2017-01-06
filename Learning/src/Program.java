@@ -23,6 +23,8 @@ public class Program extends JFrame{
 
 	   private UiElementFactory factory = new UiElementFactory();
 	   
+	   private static int level;
+	   
 	   
 	   private Program(){
 		   //default setting for frame
@@ -190,7 +192,7 @@ public class Program extends JFrame{
 		     controlPanel.add(radio1);
 		     controlPanel.add(radio2);
 		     controlPanel.add(radio3);
-		//     mainPanel.add(controlPanel,BorderLayout.CENTER);
+		 //    mainPanel.add(controlPanel,BorderLayout.CENTER);
 		     
 		     
 		     
@@ -208,9 +210,20 @@ public class Program extends JFrame{
 		     
 		     crud.listener(crudButtonListener);
 		     
+		     
+		     TestState test = new TestState();
+		     
+		     test.build();
+		     
+		     JPanel panel22 = test.getTestLayout();
+		     
+		     mainPanel.add(panel22,BorderLayout.CENTER);
+		     
+		     
+		     
 			
 		   
-	       mainPanel.add(panel,BorderLayout.CENTER);
+	    //   mainPanel.add(panel,BorderLayout.CENTER);
 		   mainPanel.add(gameLabel,BorderLayout.NORTH);
 		   mainPanel.add(panel2,BorderLayout.SOUTH);
 		   
@@ -224,6 +237,21 @@ public class Program extends JFrame{
 		   //TODO CRUD panel
 		   return null;
 	   }
+	   
+	   
+	   public static int getLevel() {
+		     
+		   return level;
+		 
+	   }
+	   
+	   public void setLevel(int level) {
+		   
+		   Program.level = level;
+		   
+
+	   }
+	   
 	 
 
 	public static void main(String[] args) {
