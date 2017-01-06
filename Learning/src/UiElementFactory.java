@@ -17,7 +17,11 @@ public class UiElementFactory {
 		} else if (type.equalsIgnoreCase("TEXTBOX")){
 			
 			return new UiTextBox(name);
+		} else if (type.equalsIgnoreCase("COMBOBOX")){
+			
+			return new UiComboBox(name);
 		}
+		
 		
 		return null;
 	}

@@ -1,6 +1,10 @@
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,22 +18,31 @@ public class Program extends JFrame{
 	private static final long serialVersionUID = 1L;
 	   private JPanel mainPanel;
 
+	   private UiElementFactory factory = new UiElementFactory();
+	   
 	   
 	   private Program(){
 		   //default setting for frame
 		   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		   setSize(600, 400);
 		   setBackground(Color.white);
+		   setResizable(false);
 		   setVisible(true);
 		   setBounds(200, 200, getWidth(), getHeight());
 		   
 		   
-		   mainPanel = new JPanel();
-		   mainPanel.setSize(600, 400);
+		   mainPanel = new JPanel(); 
+		   mainPanel.setBounds(80, 20, 400, 300);
 		   mainPanel.setVisible(true);
-		   mainPanel.setLayout(null);
 		   
-		   JLabel gameLabel = new JLabel("Program do nauki słówek");
+		   BorderLayout layout3 = new BorderLayout();
+		   layout3.setHgap(50);
+		   layout3.setVgap(50);
+		   
+		   mainPanel.setLayout(layout3);
+
+		   
+		   JLabel gameLabel = new JLabel("Program do nauki słówek",JLabel.CENTER);
 		   gameLabel.setFont(new Font(Font.SANS_SERIF, 0,30 ));
 		   gameLabel.setBounds(120, 0, 450, 50);
 		   
@@ -57,9 +70,7 @@ public class Program extends JFrame{
 		   directionComboBox.addItem("PL -> ANG");//index 0
 		   directionComboBox.addItem("ANG -> PL");//index 1
 		   
-		   
-		   
-		   
+		   		   
 		   JButton crudOperationsButton = new JButton("Baza słów");
 		   crudOperationsButton.setBounds(400, 300, 120, 25);
 		   
@@ -69,18 +80,103 @@ public class Program extends JFrame{
 		   JButton startGame = new JButton("Rozpocznij");
 		   startGame.setBounds(300, 270, 120, 25);
 		   
+		   //
+		   // DEMO & TESTING AREA
+		   //  /*
+		   
+		   JPanel panel = new JPanel();
+		   GridLayout layout = new GridLayout(0,2);
+		   layout.setVgap(20);
+		   panel.setLayout(layout);
+		   
+		   String[] poziomy = new String[]{"Łatwy","Średni","Trudny"};
+		   String[] tryby = new String[]{"Tryb nauki","Tryb testu"};
+		   String[] kierunek = new String[]{"PL -> ANG","ANG -> PL"};
+		   		   
+		   UiElement mLabel = factory.getUiElement("LABEL", "Tryb ");
+		   UiElement lLabel = factory.getUiElement("LABEL", "Poziom ");
+		   UiElement dLabel = factory.getUiElement("LABEL", "Kierunek ");		   
+		   UiElement mComboBox = factory.getUiElement("COMBOBOX", "-");
+		   UiElement lComboBox = factory.getUiElement("COMBOBOX", "-");
+		   UiElement dComboBox = factory.getUiElement("COMBOBOX", "-");
+		   
+		   mComboBox.setComboBox(tryby);
+		   lComboBox.setComboBox(poziomy);
+		   dComboBox.setComboBox(kierunek);
+		 	      
+		   panel.add(mLabel.getElement());
+		   panel.add(mComboBox.getElement());		   
+		   panel.add(lLabel.getElement());
+		   panel.add(lComboBox.getElement());		   
+		   panel.add(dLabel.getElement());
+	       panel.add(dComboBox.getElement());
+		      		   
+		   JPanel panel2 = new JPanel();	
+		   GridLayout layout2 = new GridLayout(0,3);
+		   layout2.setHgap(40);
+		   layout2.setVgap(40);   
+		   panel2.setLayout(layout2);
+		   
+		   UiElement exit = factory.getUiElement("BUTTON", "Wyjdź");	
+		   UiElement start = factory.getUiElement("BUTTON", "Start");
+		   UiElement crud = factory.getUiElement("BUTTON", "Baza słów");		
+
+		   panel2.add(exit.getElement());
+		   panel2.add(start.getElement());
+		   panel2.add(crud.getElement());
+		   
+		   //   */
+		   // END
+		   //
+		   
+		  ActionListener startButtonListener = new ActionListener(){
+			  
+			  @Override
+			  public void actionPerformed(ActionEvent arg0) {
+			   		System.out.println(mComboBox.getText());
+			   		System.out.println(lComboBox.getText());
+			   		System.out.println(dComboBox.getText());
+			   					
+			   			}
+			   	        		      	 
+			   	   };
+			   	   
+           ActionListener exitButtonListener = new ActionListener(){
+						  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {
+				 setVisible(false); 
+				 dispose();
+			
+							
+				 }
+						   	        		      	 
+			};	   	   
+			   	         
+			   	         
+			start.listener(startButtonListener);
+			exit.listener(exitButtonListener);
+		   
+	   
+		 /*  
+	 
 		   mainPanel.add(crudOperationsButton);
 		   mainPanel.add(exitButton);
 		   mainPanel.add(startGame);
 		   mainPanel.add(gameLabel);
 		   mainPanel.add(modeComboBox);
 		   
+		  */ 
+		   
+	       mainPanel.add(panel,BorderLayout.CENTER);
+		   mainPanel.add(gameLabel,BorderLayout.NORTH);
+		   mainPanel.add(panel2,BorderLayout.SOUTH);
+		   
 		   setContentPane(mainPanel);
 		   
 		   
 	   }
-
-	   
+  
 	   
 	   private JPanel createCrudPanel(){
 		   //TODO CRUD panel

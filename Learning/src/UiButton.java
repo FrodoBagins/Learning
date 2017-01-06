@@ -24,17 +24,25 @@ public class UiButton implements UiElement{
     	
     	
     	button.addActionListener(listen);
-    		
-   
     	
-    	
-
     }
 
 	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setBounds(int int1, int int2, int int3, int int4) {
+		button.setBounds(int1, int2, int3, int4);
+		
+	}
+
+	@Override
+	public void setComboBox(String[] wpisy) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
