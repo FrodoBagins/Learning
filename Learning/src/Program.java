@@ -7,12 +7,15 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class Program extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -167,6 +170,45 @@ public class Program extends JFrame{
 		   mainPanel.add(modeComboBox);
 		   
 		  */ 
+			
+			
+			JRadioButton radio1 = new JRadioButton("odpowied 1");
+			JRadioButton radio2 = new JRadioButton("odpowiedz 2");
+			JRadioButton radio3 = new JRadioButton("odpowied 3");
+	
+		      ButtonGroup group = new ButtonGroup();
+		      group.add(radio1);
+		      group.add(radio2);
+		      group.add(radio3);
+			
+
+		      
+
+		     JPanel controlPanel = new JPanel();
+		     controlPanel.setLayout(new GridLayout(3, 1));
+		     
+		     controlPanel.add(radio1);
+		     controlPanel.add(radio2);
+		     controlPanel.add(radio3);
+		//     mainPanel.add(controlPanel,BorderLayout.CENTER);
+		     
+		     
+		     
+	           ActionListener crudButtonListener = new ActionListener(){
+					  
+	  			 @Override
+	  			 public void actionPerformed(ActionEvent arg0) {
+	  				if(radio1.isSelected()) System.out.println("1");
+	  				if(radio2.isSelected()) System.out.println("2");
+	  				if(radio3.isSelected()) System.out.println("3");
+	  					
+	  	  				 }
+	  						   	        		      	 
+	  			};	 
+		     
+		     crud.listener(crudButtonListener);
+		     
+			
 		   
 	       mainPanel.add(panel,BorderLayout.CENTER);
 		   mainPanel.add(gameLabel,BorderLayout.NORTH);
