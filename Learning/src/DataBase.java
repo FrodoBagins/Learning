@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,12 +8,18 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 public class DataBase {
 
 	private Map<Integer, Map<String, String>> data;
 	private static DataBase dataBase = new DataBase();
 	private int wordsCount = 0;
 	public static final String FILE_NAME = "words.txt";
+	private UiElementFactory factory = new UiElementFactory();
 
 	private DataBase() {
 		data = new HashMap<Integer, Map<String, String>>();
@@ -83,4 +90,5 @@ public class DataBase {
 		return dataBase;
 	}
 
+	
 }
