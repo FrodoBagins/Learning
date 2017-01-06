@@ -11,10 +11,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,8 +25,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -242,6 +247,8 @@ public class Program extends JFrame {
 		JTextField addEnglishWordText = new JTextField();
 		JTextField editPolishWordText = new JTextField();
 		JTextField editEnglishWordText = new JTextField();
+		JTextField deleteWordPolishText = new JTextField();
+		JTextField deleteWordEnglishText = new JTextField();
 
 		// labels
 		JLabel crudLabel = new JLabel("Zarządzenie bazą słówek");
@@ -256,12 +263,31 @@ public class Program extends JFrame {
 		JButton editWordButton = new JButton("Edytuj słowo");
 		JButton deleteWordButton = new JButton("Usuń słowo");
 		JButton backToMainButton = new JButton("Panel główny");
+		
 
 		// fonts
 		Font addTextFieldsFont = new Font("Cambria", 0, 24);
 		
 		//lists
-		JList<String> editList = new JList<String>();
+		DefaultListModel<String> editWordsList = new DefaultListModel<String>();
+		JList<String> editList = new JList<String>(editWordsList);
+		JScrollPane scrollEditList = new JScrollPane(editList);
+		editList.setVisibleRowCount(7);
+		editList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollEditList.setMinimumSize(new Dimension(180,200));
+		scrollEditList.setMaximumSize(new Dimension(180,200));
+		scrollEditList.setBorder(new LineBorder(Color.BLACK));
+		IDbOperations dbOperations = new DbAdapter();
+		for(int i=0; i<dbOperations.getWordsCount();i++){
+			editWordsList.addElement((String) dbOperations.read(i).keySet().toArray()[0]);
+		}
+		JList<String> deleteList = new JList<String>(editWordsList);
+		JScrollPane scrollDeleteList = new JScrollPane(deleteList);
+		scrollDeleteList.setMinimumSize(new Dimension(180,200));
+		scrollDeleteList.setMaximumSize(new Dimension(180,200));
+		scrollDeleteList.setBorder(new LineBorder(Color.BLACK));
+		
+		
 
 		// separators
 		JSeparator horizontalSeparator = new JSeparator();
@@ -271,21 +297,23 @@ public class Program extends JFrame {
 		// buttons options
 		backToMainButton.setBounds(420, 20, 120, 30);
 		addWordButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		editWordButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		deleteWordButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// panels options
 		crudPanel.setSize(600, 400);
 		crudPanel.setLayout(null);
-		addWordPanel.setBackground(Color.red);
+		addWordPanel.setBackground(Color.green);
 		addWordPanel.setLayout(new BoxLayout(addWordPanel, BoxLayout.Y_AXIS));
 		addWordPanel.setBounds(10, 80, 185, 280);
 		addWordPanel.setBorder(new LineBorder(Color.BLACK));
 		
-		editWordPanel.setBackground(Color.green);
+		editWordPanel.setBackground(Color.yellow);
 		editWordPanel.setLayout(new BoxLayout(editWordPanel, BoxLayout.Y_AXIS));
 		editWordPanel.setBounds(205, 80, 185, 280);
 		editWordPanel.setBorder(new LineBorder(Color.BLACK));
 		
-		deleteWordPanel.setBackground(Color.blue);
+		deleteWordPanel.setBackground(Color.red);
 		deleteWordPanel.setLayout(new BoxLayout(deleteWordPanel, BoxLayout.Y_AXIS));
 		deleteWordPanel.setBounds(400, 80, 185, 280);
 		deleteWordPanel.setBorder(new LineBorder(Color.BLACK));
@@ -304,7 +332,17 @@ public class Program extends JFrame {
 		addPolishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
 		addEnglishWordText.setMaximumSize(new Dimension(150, 50));
 		addEnglishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+		
+		editPolishWordText.setMaximumSize(new Dimension(150, 30));
+		editPolishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		editEnglishWordText.setMaximumSize(new Dimension(150, 30));
+		editEnglishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		deleteWordPolishText.setMaximumSize(new Dimension(150, 30));
+		deleteWordPolishText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		deleteWordEnglishText.setMaximumSize(new Dimension(150, 30));
+		deleteWordEnglishText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		addPolishWordText.setFont(addTextFieldsFont);
 		addEnglishWordText.setFont(addTextFieldsFont);
 
@@ -320,6 +358,27 @@ public class Program extends JFrame {
 		addWordPanel.add(addEnglishWordText);
 		addWordPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		addWordPanel.add(addWordButton);
+		
+		
+		editWordPanel.add(scrollEditList);
+		editWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		editWordPanel.add(editPolishWordText);
+		editWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		editWordPanel.add(editEnglishWordText);
+		editWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		editWordPanel.add(editWordButton);
+		
+		deleteWordPanel.add(scrollDeleteList);
+		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		deleteWordPanel.add(deleteWordPolishText);
+		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		deleteWordPanel.add(deleteWordEnglishText);
+		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		deleteWordPanel.add(deleteWordButton);
+		
+		
+		
+		
 		
 		
 		
