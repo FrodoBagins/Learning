@@ -41,7 +41,7 @@ public class Program extends JFrame {
 	private static IDbOperations dbOperations = new DbAdapter();
 	private LinkedList<Command> undoHistory = new LinkedList<Command>();
 	private LinkedList<Command> redoHistory = new LinkedList<Command>();
-	private State state;
+	private static State state;
 	private boolean englishPolish;
 	private int score;
 	private int questionNumber;
@@ -180,18 +180,18 @@ public class Program extends JFrame {
   				if(modeComboBox.getSelectedIndex()==0)
   				{
   					
-				LearnState learn = new LearnState();
+				state = new LearnState();
 
-				learn.build();
+				state.build();
 
-			    panel22 = learn.getTestLayout(); }
+			    panel22 = state.getTestLayout(); }
   				
   				else {
-  					TestState test = new TestState();
+  					state = new TestState();
 
-  					test.build();
+  					state.build();
 
-  				    panel22 = test.getTestLayout(); 
+  				    panel22 = state.getTestLayout(); 
   				}
 				
 				
