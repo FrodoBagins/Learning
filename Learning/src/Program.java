@@ -716,6 +716,38 @@ public class Program extends JFrame {
 
 		return crudPanel;
 	}
+	
+	public static void setScorePanel(){
+		JPanel scorePanel = new JPanel();
+		scorePanel.setLayout(null);
+		JLabel scoreLabel = new JLabel("Zdobyłeś " + Program.getScore() +" punktów !");
+		scoreLabel.setBounds(100, 150, 400, 50);
+		scoreLabel.setHorizontalAlignment(JLabel.CENTER);
+		scoreLabel.setVerticalAlignment(JLabel.CENTER);
+		Font font = new Font("cambria", Font.BOLD, 25);
+		JButton backButton = new JButton("Menu głowne");
+		backButton.setBounds(250, 300, 120, 40);
+		scoreLabel.setFont(font);
+		scorePanel.setSize(600, 400);
+		scorePanel.setBackground(Color.white);
+		scorePanel.add(scoreLabel);
+		scorePanel.add(backButton);
+		
+		backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				program.setContentPane(setMainPanel());
+				program.revalidate();
+				program.repaint();
+				
+			}
+		});
+		
+		program.setContentPane(scorePanel);
+		program.setVisible(true);
+	}
+
 
 	private static void refreshWordsList() {
 		wordsList.clear();
