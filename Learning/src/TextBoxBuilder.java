@@ -15,11 +15,11 @@ private JTextField answerText=new JTextField();
 	
 	private JPanel panel=new JPanel();
 	
-	static JButton exitButton = new JButton();
-	static JButton checkButton = new JButton();
-	static JButton nextButton = new JButton();
-	static JButton prevButton = new JButton();
-	static JPanel panel2 = new JPanel();
+//	static JButton exitButton = new JButton();
+//	static JButton checkButton = new JButton();
+//	static JButton nextButton = new JButton();
+//	static JButton prevButton = new JButton();
+	private JPanel panel2 = new JPanel();
 	
 
 	@Override
@@ -59,15 +59,22 @@ private JTextField answerText=new JTextField();
 		
 		
 		
-		
-		
 		if(button.equals("EXIT"))
-		{	exitButton.setText("EXIT");   	
+		{	
+			
+			JButton exitButton = new JButton();
+			exitButton.setText("EXIT");   	
 		
         ActionListener exitListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 					System.out.println("EXIT");
+					
+					Program.showMainPanel();
+				//	Program.setMainPanel();
+					
+					
+					
 		 }	};	 		
 			
 		 
@@ -80,7 +87,11 @@ private JTextField answerText=new JTextField();
 		
 		
 		if(button.equals("CHECK"))
-		{	checkButton.setText("CHECK");   	
+		{	
+			
+			JButton checkButton = new JButton();
+			
+			checkButton.setText("CHECK");   	
 		
         ActionListener checkListener = new ActionListener(){			  
 			 @Override
@@ -99,13 +110,15 @@ private JTextField answerText=new JTextField();
 		
 		
 		if(button.equals("NEXT"))
-		{	nextButton.setText("NEXT");   	
+		{	
+			JButton nextButton = new JButton();
+			nextButton.setText("NEXT");   	
 		
         ActionListener nextListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-
+					 
 					System.out.println("NEXT");
 			 }				   	        		      	 
 			};	 		
@@ -118,14 +131,17 @@ private JTextField answerText=new JTextField();
 		
 		
 		if(button.equals("PREV"))
-		{	prevButton.setText("PREV");   	
+		{	
+			JButton prevButton = new JButton();
+			
+			prevButton.setText("PREV");   	
 		
         ActionListener prevListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
 
-					System.out.println("CHECK");
+					System.out.println("PREV");
 			 }				   	        		      	 
 			};	 		
 			

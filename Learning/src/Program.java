@@ -35,7 +35,7 @@ import javax.swing.event.ListSelectionListener;
 
 public class Program extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static JPanel mainPanel;
+//	private static JPanel mainPanel = new JPanel();
 	private static Program program;
 	private static DefaultListModel<String> wordsList;
 	private static IDbOperations dbOperations = new DbAdapter();
@@ -51,9 +51,11 @@ public class Program extends JFrame {
 	private static int level;
 	private int actualQuestion;
 	private Builder builder;
-	private JComboBox<String> directionComboBox;
-	private JComboBox<String> modeComboBox;
-	private JComboBox<String> levelComboBox;
+//	private JButton startButton;
+//	private JButton exitButton;
+	private static JComboBox<String> directionComboBox;
+	private static JComboBox<String> modeComboBox;
+	private static JComboBox<String> levelComboBox;
 
 	private Program() {
 
@@ -64,8 +66,26 @@ public class Program extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		setBounds(200, 200, getWidth(), getHeight());
+		
+		setContentPane(Program.setMainPanel());
 
-		mainPanel = new JPanel();
+	}
+	
+	
+	public static void showMainPanel(){
+		
+		System.out.println("DUPA");
+		program.getContentPane().removeAll();
+		program.getContentPane().setBackground(Color.white);
+		program.setContentPane(Program.setMainPanel());
+		program.revalidate();
+		program.repaint();
+	}
+
+	public static JPanel setMainPanel() {
+		
+		JPanel mainPanel = new JPanel();
+		
 		mainPanel.setBackground(Color.white);
 		mainPanel.setBounds(80, 20, 400, 300);
 		mainPanel.setVisible(true);
@@ -142,23 +162,43 @@ public class Program extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TestState test = new TestState();
+				
+		   		if(levelComboBox.getSelectedIndex()==0) program.setLevel(1);
+  				if(levelComboBox.getSelectedIndex()==1) program.setLevel(2);
+  				if(levelComboBox.getSelectedIndex()==2) program.setLevel(3);
+				
+  				JPanel panel22 = new JPanel();
+  				
+  				
+  				if(modeComboBox.getSelectedIndex()==0)
+  				{
+				LearnState learn = new LearnState();
 
-				test.build();
+				learn.build();
 
-				JPanel panel22 = test.getTestLayout();
+			    panel22 = learn.getTestLayout(); }
+  				
+  				else {
+  					TestState test = new TestState();
 
-				mainPanel.removeAll();
+  					test.build();
 
-				mainPanel.add(panel22, BorderLayout.CENTER);
+  				    panel22 = test.getTestLayout(); 
+  				}
+				
+				
+								
+				program.getContentPane().removeAll();
+				System.out.println("powrót do menu");
+				program.getContentPane().setBackground(Color.white);
+				program.setContentPane(panel22);
+				program.revalidate();
+				program.repaint();
 
-				mainPanel.invalidate();
-				mainPanel.validate();
-				mainPanel.repaint();
 
-				makeQuestions(1);
-				makeWrongAnswers(15);
-				showMeNow();
+			program.makeQuestions(1);
+			program.makeWrongAnswers(15);
+			program.showMeNow();
 
 			}
 		});
@@ -167,8 +207,8 @@ public class Program extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-				dispose();
+			program.setVisible(false);
+			program.dispose();
 
 			}
 		});
@@ -194,12 +234,11 @@ public class Program extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				setCrudPanel();
+				System.out.println("NAPIS");
+				
 			}
 		});
 
-		TestState test = new TestState();
-
-		test.build();
 
 		panel.setBackground(Color.white);
 		panel2.setBackground(Color.white);
@@ -207,10 +246,12 @@ public class Program extends JFrame {
 		mainPanel.add(gameLabel, BorderLayout.NORTH);
 		mainPanel.add(panel2, BorderLayout.SOUTH);
 
-		setContentPane(mainPanel);
-
+	//	program.setContentPane(mainPanel);
+		return mainPanel;
+			
+		
 	}
-
+	
 	public void makeQuestions(int numberOfQuestions) {
 		int dataBaseSize = dbOperations.getWordsCount();
 		correctAnswers.clear();
@@ -534,8 +575,9 @@ public class Program extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				program.getContentPane().removeAll();
+				System.out.println("powrót do menu");
 				program.getContentPane().setBackground(Color.white);
-				program.setContentPane(mainPanel);
+				program.setContentPane(setMainPanel());
 				program.revalidate();
 				program.repaint();
 

@@ -13,19 +13,22 @@ public class RadioPanelBuilder implements Builder{
 	
 	private JPanel panel=new JPanel();
 	
-	static JButton exitButton = new JButton();
-	static JButton checkButton = new JButton();
-	static JButton nextButton = new JButton();
-	static JButton prevButton = new JButton();
+//	static JButton exitButton = new JButton();
+//	static JButton checkButton = new JButton();
+//	static JButton nextButton = new JButton();
+//	static JButton prevButton = new JButton();
 	
 	private static IWord iiword;
+	
+	
+	private JPanel panel2 = new JPanel();
 	
 	static JLabel checkone = new JLabel("1");
 	static JLabel checktwo = new JLabel("2");
 	static JLabel checkthree = new JLabel("3");
 	static JLabel checkfour = new JLabel("4");
 	
-	static JPanel panel2 = new JPanel();
+//	static JPanel panel2 = new JPanel();
 	
 	
 	private IWord selectedAnswer;
@@ -101,17 +104,26 @@ public class RadioPanelBuilder implements Builder{
 	@Override
 	public void addButton(String button) {
 		
-
+		//panel2 = new JPanel();
 		
 		
 		
 		if(button.equals("EXIT"))
-		{	exitButton.setText("EXIT");   	
+		{	
+			
+			JButton exitButton = new JButton();
+			exitButton.setText("EXIT");   	
 		
         ActionListener exitListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 					System.out.println("EXIT");
+					
+					Program.showMainPanel();
+				//	Program.setMainPanel();
+					
+					
+					
 		 }	};	 		
 			
 		 
@@ -124,7 +136,11 @@ public class RadioPanelBuilder implements Builder{
 		
 		
 		if(button.equals("CHECK"))
-		{	checkButton.setText("CHECK");   	
+		{	
+			
+			JButton checkButton = new JButton();
+			
+			checkButton.setText("CHECK");   	
 		
         ActionListener checkListener = new ActionListener(){			  
 			 @Override
@@ -143,7 +159,9 @@ public class RadioPanelBuilder implements Builder{
 		
 		
 		if(button.equals("NEXT"))
-		{	nextButton.setText("NEXT");   	
+		{	
+			JButton nextButton = new JButton();
+			nextButton.setText("NEXT");   	
 		
         ActionListener nextListener = new ActionListener(){			  
 			 @Override
@@ -162,14 +180,17 @@ public class RadioPanelBuilder implements Builder{
 		
 		
 		if(button.equals("PREV"))
-		{	prevButton.setText("PREV");   	
+		{	
+			JButton prevButton = new JButton();
+			
+			prevButton.setText("PREV");   	
 		
         ActionListener prevListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
 
-					System.out.println("CHECK");
+					System.out.println("PREV");
 			 }				   	        		      	 
 			};	 		
 			

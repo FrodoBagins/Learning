@@ -30,3 +30,7 @@ p15
 a15
 p16
 a16
+dom
+house
+kot
+cat
