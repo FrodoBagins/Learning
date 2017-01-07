@@ -1,21 +1,18 @@
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Random;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -41,13 +38,25 @@ public class Program extends JFrame {
 	private static JPanel mainPanel;
 	private static Program program;
 	private static DefaultListModel<String> wordsList;
-	static IDbOperations dbOperations = new DbAdapter();
-
-	private UiElementFactory factory = new UiElementFactory();
-
+	private static IDbOperations dbOperations = new DbAdapter();
+	private LinkedList<Command> undoHistory = new LinkedList<Command>();
+	private LinkedList<Command> redoHistory = new LinkedList<Command>();
+	private State state;
+	private boolean englishPolish;
+	private int score;
+	private int questionNumber;
+	private List<String> choosedQuestions = new ArrayList<String>();
+	private List<String> correctAnswers = new ArrayList<String>();
+	private List<String[]> incorrectAnswers = new ArrayList<String[]>();
 	private static int level;
+	private int actualQuestion;
+	private Builder builder;
+	private JComboBox<String> directionComboBox;
+	private JComboBox<String> modeComboBox;
+	private JComboBox<String> levelComboBox;
 
 	private Program() {
+
 		// default setting for frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 400);
@@ -55,14 +64,14 @@ public class Program extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		setBounds(200, 200, getWidth(), getHeight());
-		
+
 		mainPanel = new JPanel();
 		mainPanel.setBackground(Color.white);
 		mainPanel.setBounds(80, 20, 400, 300);
 		mainPanel.setVisible(true);
 
 		BorderLayout layout3 = new BorderLayout();
-		
+
 		layout3.setHgap(50);
 		layout3.setVgap(50);
 
@@ -73,25 +82,20 @@ public class Program extends JFrame {
 		gameLabel.setBounds(120, 0, 450, 50);
 
 		JLabel modeLabel = new JLabel("Tryb ");
-		// modeLabel.setBounds(x, y, width, height);
-
 		JLabel levelLabel = new JLabel("Poziom ");
-		// levelLabel.setBounds(x, y, width, height);
-
 		JLabel directionLabel = new JLabel("Kierunek ");
-		// typeGame.setBounds(x, y, width, height);
 
-		JComboBox<String> modeComboBox = new JComboBox<>();
+		modeComboBox = new JComboBox<>();
 		modeComboBox.addItem("Tryb nauki"); // index 0
 		modeComboBox.addItem("Tryb testu"); // index 1
 		modeComboBox.setBounds(200, 200, 100, 30);
 
-		JComboBox<String> levelComboBox = new JComboBox<>();
+		levelComboBox = new JComboBox<>();
 		levelComboBox.addItem("Łatwy");// index 0
 		levelComboBox.addItem("Średni");// index 1
 		levelComboBox.addItem("Trudny");// index 2
 
-		JComboBox<String> directionComboBox = new JComboBox<>();
+		directionComboBox = new JComboBox<>();
 		directionComboBox.addItem("PL -> ANG");// index 0
 		directionComboBox.addItem("ANG -> PL");// index 1
 
@@ -113,27 +117,12 @@ public class Program extends JFrame {
 		layout.setVgap(20);
 		panel.setLayout(layout);
 
-		String[] poziomy = new String[] { "Łatwy", "Średni", "Trudny" };
-		String[] tryby = new String[] { "Tryb nauki", "Tryb testu" };
-		String[] kierunek = new String[] { "PL -> ANG", "ANG -> PL" };
-
-		UiElement mLabel = factory.getUiElement("LABEL", "Tryb ");
-		UiElement lLabel = factory.getUiElement("LABEL", "Poziom ");
-		UiElement dLabel = factory.getUiElement("LABEL", "Kierunek ");
-		UiElement mComboBox = factory.getUiElement("COMBOBOX", "-");
-		UiElement lComboBox = factory.getUiElement("COMBOBOX", "-");
-		UiElement dComboBox = factory.getUiElement("COMBOBOX", "-");
-
-		mComboBox.setComboBox(tryby);
-		lComboBox.setComboBox(poziomy);
-		dComboBox.setComboBox(kierunek);
-
-		panel.add(mLabel.getElement());
-		panel.add(mComboBox.getElement());
-		panel.add(lLabel.getElement());
-		panel.add(lComboBox.getElement());
-		panel.add(dLabel.getElement());
-		panel.add(dComboBox.getElement());
+		panel.add(modeLabel);
+		panel.add(modeComboBox);
+		panel.add(levelLabel);
+		panel.add(levelComboBox);
+		panel.add(directionLabel);
+		panel.add(directionComboBox);
 
 		JPanel panel2 = new JPanel();
 		GridLayout layout2 = new GridLayout(0, 3);
@@ -141,56 +130,40 @@ public class Program extends JFrame {
 		layout2.setVgap(40);
 		panel2.setLayout(layout2);
 
-		UiElement exit = factory.getUiElement("BUTTON", "Wyjdź");
-		UiElement start = factory.getUiElement("BUTTON", "Start");
-		UiElement crud = factory.getUiElement("BUTTON", "Baza słów");
-
-		panel2.add(exit.getElement());
-		panel2.add(start.getElement());
-		panel2.add(crud.getElement());
+		panel2.add(exitButton);
+		panel2.add(startGame);
+		panel2.add(crudOperationsButton);
 
 		// */
 		// END
 		//
 
-		ActionListener startButtonListener = new ActionListener() {
+		startGame.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println(mComboBox.getText());
-		   		System.out.println(lComboBox.getText());
-		   		System.out.println(dComboBox.getText());
-		   		
-		   		if(lComboBox.getText().equals("Łatwy")) setLevel(1);
-  				if(lComboBox.getText().equals("Średni")) setLevel(2);
-  				if(lComboBox.getText().equals("Trudny")) setLevel(3);
-  				
-		   		
-			     TestState test = new TestState();
-			     
-			     test.build();
-			     
-			     JPanel panel22 = test.getTestLayout();
-			     
-			     
-			   
-			     
-			     mainPanel.removeAll();
-				 
-				  mainPanel.add(panel22,BorderLayout.CENTER);
-				  										
-					mainPanel.invalidate();
-					mainPanel.validate();
-					mainPanel.repaint();
+			public void actionPerformed(ActionEvent e) {
+				TestState test = new TestState();
 
-		   					
-		   			}
+				test.build();
 
-			};
+				JPanel panel22 = test.getTestLayout();
 
-	
+				mainPanel.removeAll();
 
-		ActionListener exitButtonListener = new ActionListener() {
+				mainPanel.add(panel22, BorderLayout.CENTER);
+
+				mainPanel.invalidate();
+				mainPanel.validate();
+				mainPanel.repaint();
+
+				makeQuestions(1);
+				makeWrongAnswers(15);
+				showMeNow();
+
+			}
+		});
+
+		exitButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -198,19 +171,7 @@ public class Program extends JFrame {
 				dispose();
 
 			}
-
-		};
-
-		start.listener(startButtonListener);
-		exit.listener(exitButtonListener);
-
-		/*
-		 * 
-		 * mainPanel.add(crudOperationsButton); mainPanel.add(exitButton);
-		 * mainPanel.add(startGame); mainPanel.add(gameLabel);
-		 * mainPanel.add(modeComboBox);
-		 * 
-		 */
+		});
 
 		JRadioButton radio1 = new JRadioButton("odpowied 1");
 		JRadioButton radio2 = new JRadioButton("odpowiedz 2");
@@ -228,19 +189,17 @@ public class Program extends JFrame {
 		controlPanel.add(radio2);
 		controlPanel.add(radio3);
 
-		ActionListener crudButtonListener = new ActionListener() {
+		crudOperationsButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				setCrudPanel();
 			}
+		});
 
-		};
+		TestState test = new TestState();
 
-		crud.listener(crudButtonListener);
-
-			
-			
+		test.build();
 
 		panel.setBackground(Color.white);
 		panel2.setBackground(Color.white);
@@ -250,6 +209,92 @@ public class Program extends JFrame {
 
 		setContentPane(mainPanel);
 
+	}
+
+	public void makeQuestions(int numberOfQuestions) {
+		int dataBaseSize = dbOperations.getWordsCount();
+		correctAnswers.clear();
+		choosedQuestions.clear();
+		if (numberOfQuestions > dataBaseSize) {
+			JOptionPane.showMessageDialog(null, "Nie ma wystarczająco pytań w bazie");
+		} else {
+
+			Random random = new Random();
+			Map<Integer, Integer> choosedNumbers = new HashMap<Integer, Integer>();
+			for (int i = 0; i < numberOfQuestions; i++) {
+				int randomNumber = random.nextInt(dataBaseSize);
+				while (choosedNumbers.containsKey(randomNumber)) {
+					randomNumber = random.nextInt(dataBaseSize);
+				}
+				Map<String, String> selectedQuestion = dbOperations.read(randomNumber);
+				if (directionComboBox.getSelectedIndex() == 0) {
+					choosedQuestions.add((String) selectedQuestion.keySet().toArray()[0]);
+					correctAnswers.add(selectedQuestion.get((String) selectedQuestion.keySet().toArray()[0]));
+				} else {
+					choosedQuestions.add(selectedQuestion.get((String) selectedQuestion.keySet().toArray()[0]));
+					correctAnswers.add((String) selectedQuestion.keySet().toArray()[0]);
+
+				}
+				choosedNumbers.put(randomNumber, 0);
+
+			}
+		}
+	}
+
+	public void makeWrongAnswers(int NumberOfWrongAnswers) { // for each
+																// question
+		int numberOfQuestions = choosedQuestions.size();
+		if (numberOfQuestions == 0)
+			throw new NullPointerException("Choose questions first");
+		if (NumberOfWrongAnswers <= dbOperations.getWordsCount() - 1) {
+			Random random = new Random();
+			for (int i = 0; i < numberOfQuestions; i++) {
+				// random question
+				String wrongAnswers[] = new String[NumberOfWrongAnswers];
+				for (int j = 0; j < NumberOfWrongAnswers; j++) {
+					Map<String, String> randomQuestion = dbOperations
+							.read(random.nextInt(dbOperations.getWordsCount()));
+					if (directionComboBox.getSelectedIndex() == 0) {
+						while (randomQuestion.keySet().toArray()[0].toString().equals(choosedQuestions.get(i))
+								|| Arrays.asList(wrongAnswers).contains(
+										randomQuestion.get(randomQuestion.keySet().toArray()[0].toString()))) {
+							randomQuestion = dbOperations.read(random.nextInt(dbOperations.getWordsCount()));
+						}
+						wrongAnswers[j] = randomQuestion.get((String) randomQuestion.keySet().toArray()[0]);
+
+					} else {
+						while (randomQuestion.get((String) randomQuestion.keySet().toArray()[0])
+								.equals(choosedQuestions.get(i)) || Arrays.asList(wrongAnswers).contains(randomQuestion.keySet().toArray()[0].toString())) {
+							randomQuestion = dbOperations.read(random.nextInt(dbOperations.getWordsCount()));
+						}
+						wrongAnswers[j] = (String) randomQuestion.keySet().toArray()[0];
+
+					}
+				}
+				incorrectAnswers.add(wrongAnswers);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Nie wystarczająca ilość pytań błędnych w bazie dla tego poziomu");
+		}
+	}
+
+	public void showMeNow() {
+		System.out.println("Choosed: ");
+		for (String s : choosedQuestions) {
+			System.out.println(s);
+		}
+		System.out.println("Correct answers");
+		for (String s : correctAnswers) {
+			System.out.println(s);
+		}
+		System.out.println("Wrong answers");
+		for (String[] tab : incorrectAnswers) {
+			for (String k : tab) {
+				System.out.println(k);
+
+			}
+			System.out.println("----");
+		}
 	}
 
 	public static int getLevel() {
@@ -286,7 +331,7 @@ public class Program extends JFrame {
 		JLabel addEnglishWordLabel = new JLabel("Angielskie słowo: ");
 		JLabel editWordLabel = new JLabel("Edytuj słowo");
 		JLabel deleteWordLabel = new JLabel("Usuń słowo");
-    
+
 		// buttons
 		JButton addWordButton = new JButton("Dodaj słowo");
 		JButton editWordButton = new JButton("Edytuj słowo");
@@ -483,18 +528,17 @@ public class Program extends JFrame {
 
 			}
 		});
-		
+
 		backToMainButton.addActionListener(new ActionListener() {
-			
+
 			@Override
-			public void actionPerformed(ActionEvent e) {		
+			public void actionPerformed(ActionEvent e) {
 				program.getContentPane().removeAll();
-				program.getContentPane().setBackground(Color.white);				
+				program.getContentPane().setBackground(Color.white);
 				program.setContentPane(mainPanel);
 				program.revalidate();
 				program.repaint();
-				
-				
+
 			}
 		});
 

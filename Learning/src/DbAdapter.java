@@ -30,6 +30,11 @@ public class DbAdapter implements IDbOperations {
 	public int getWordsCount() {
 		return dataBase.getSize();
 	}
+	
+	@Override
+	public boolean equalsPolishWord(String wordPl){
+		return dataBase.equalsPolishWord(wordPl);
+	}
 
 	
 	
