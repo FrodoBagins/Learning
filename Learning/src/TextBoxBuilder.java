@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,89 +12,95 @@ import javax.swing.JTextField;
 
 public class TextBoxBuilder implements Builder{
 
-private JTextField answerText=new JTextField();
+   private JTextField answerText;
 	
 	
 	private JPanel panel=new JPanel();
 	
 	private JLabel gameLabel;
-	
 
-	
-//	static JButton exitButton = new JButton();
-//	static JButton checkButton = new JButton();
-//	static JButton nextButton = new JButton();
-//	static JButton prevButton = new JButton();
+	private JButton nextButton;
+
 	private JPanel panel2 = new JPanel();
+	
+	
+	private String rightAnswer;
 	private String selectedAnswerString;
 
 	@Override
 	public void addQuestion(String quest) {
-		panel.setLayout(new BorderLayout());
 		
 		
+		GridLayout laj = new GridLayout(3,0);
 		
-		//
-		//Dodac ifa z kierunkiem tłumacznia todo
-		//
+		laj.setHgap(100);
+		laj.setVgap(50);
+		
+		
+		panel.setBounds(80, 20, 400, 300);
+		panel.setLayout(laj);
+		
 		
 		String question = new String("Przetłumacz na język angielski "+quest);
 			
 		gameLabel = new JLabel(question,JLabel.CENTER);
-		panel.add(gameLabel,BorderLayout.NORTH);
+		panel.add(gameLabel);
 				
 	}
 
 	@Override
 	public void addAnswer(IWord answer) {
 		
+		   answerText = new JTextField();
+		  
 	       answerText.setText("");
-	       answerText.setBounds(0, 0, 20, 20);
+	       answerText.setBounds(20, 100, 20, 20);
+	       
+	       JLabel emptyTxT = new JLabel(" ");
+	       JLabel emptyTxT2 = new JLabel(" ");
+		     
+		JPanel panel3 = new JPanel();
+	    GridLayout layout3 = new GridLayout(0, 3);
+		panel3.setLayout(layout3);
+	       
+	       rightAnswer = answer.getWord().getText();
 	    
-	     panel.add(answerText,BorderLayout.CENTER);
+	       panel3.add(emptyTxT);
+	       panel3.add(answerText);
+	       panel3.add(emptyTxT2);
+	       
+	     panel.add(panel3);
 	     
 			JPanel panel2 = new JPanel();
 			GridLayout layout2 = new GridLayout(3, 3);
 			panel2.setLayout(layout2);
-	    
-	    	
+	        
 	}
 
 	@Override
 	public void addButton(String button) {
 		
-		
-		
 		if(button.equals("EXIT"))
 		{	
-			
 			JButton exitButton = new JButton();
 			exitButton.setText("EXIT");   	
-		
         ActionListener exitListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 					System.out.println("EXIT");
 					
 					Program.showMainPanel();
-				//	Program.setMainPanel();
-					
-					
-					
-		 }	};	 		
+	          }	
+		};	 		
 			
-		 
 		exitButton.addActionListener(exitListener);		
 		panel2.add(exitButton);
 		
 		}
 		
-		
-		
-		
+				
 		if(button.equals("CHECK"))
-		{	
-			
+		{			
 			JButton checkButton = new JButton();
 			
 			checkButton.setText("CHECK");   	
@@ -103,11 +110,21 @@ private JTextField answerText=new JTextField();
 			 public void actionPerformed(ActionEvent arg0) {			
 
 				 selectedAnswerString=answerText.getText();
-
-					System.out.println("CHECK"+selectedAnswerString);
+	 
+				 if(selectedAnswerString.equals(rightAnswer))
+				 {			 
+					 answerText.setEnabled(false);
+					 answerText.setBackground(Color.GREEN);
+					 answerText.setDisabledTextColor(Color.WHITE);
+					 nextButton.setEnabled(true);			 					 
+				 }		 			 
+				 else{
+					 
+					 answerText.setBackground(Color.RED);		 
+				 }				 
+					System.out.println("CHECK"+rightAnswer);										
 			 }				   	        		      	 
-			};	 		
-			
+			};	 					
 			checkButton.addActionListener(checkListener);		
 			panel2.add(checkButton);
 		}
@@ -117,7 +134,7 @@ private JTextField answerText=new JTextField();
 		
 		if(button.equals("NEXT"))
 		{	
-			JButton nextButton = new JButton();
+			nextButton = new JButton();
 			nextButton.setText("NEXT");   	
 		
         ActionListener nextListener = new ActionListener(){			  
@@ -129,7 +146,8 @@ private JTextField answerText=new JTextField();
 			 }				   	        		      	 
 			};	 		
 			
-			nextButton.addActionListener(nextListener);		
+			nextButton.addActionListener(nextListener);	
+			nextButton.setEnabled(false);
 			panel2.add(nextButton);
 		}
 		
@@ -155,7 +173,51 @@ private JTextField answerText=new JTextField();
 			panel2.add(prevButton);
 		}
 		
-		panel.add(panel2,BorderLayout.SOUTH);
+		
+		if(button.equals("NEXTTEST"))
+		{	
+			nextButton = new JButton();
+			nextButton.setText("NEXTTEST");   	
+		
+        ActionListener nextListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
+
+					 
+					System.out.println("NEXTTEST");
+			 }				   	        		      	 
+			};	 		
+			
+			nextButton.addActionListener(nextListener);	
+			nextButton.setEnabled(false);
+			panel2.add(nextButton);
+		}
+		
+		
+		if(button.equals("SCORE"))
+		{	
+			JButton prevButton = new JButton();
+			
+			prevButton.setText("SCORE");   	
+		
+        ActionListener prevListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
+
+
+					System.out.println("SCORE");
+			 }				   	        		      	 
+			};	 		
+			
+			prevButton.addActionListener(prevListener);		
+			panel2.add(prevButton);
+		}
+		
+		
+		
+		
+		
+		panel.add(panel2);
 		
 	}
 	

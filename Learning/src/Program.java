@@ -71,7 +71,6 @@ public class Program extends JFrame {
 
 	}
 	
-	
 	public static void showMainPanel(){
 		
 		System.out.println("DUPA");
@@ -128,10 +127,6 @@ public class Program extends JFrame {
 		JButton startGame = new JButton("Rozpocznij");
 		startGame.setBounds(300, 270, 120, 25);
 
-		//
-		// DEMO & TESTING AREA
-		// /*
-
 		JPanel panel = new JPanel();
 		GridLayout layout = new GridLayout(0, 2);
 		layout.setVgap(20);
@@ -154,9 +149,6 @@ public class Program extends JFrame {
 		panel2.add(startGame);
 		panel2.add(crudOperationsButton);
 
-		// */
-		// END
-		//
 
 		startGame.addActionListener(new ActionListener() {
 

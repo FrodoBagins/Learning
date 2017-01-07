@@ -37,8 +37,8 @@ public class TestState implements State{
 		builder.addQuestion(pytanie);
 		builder.addAnswer(new WordDecoratorGreen(new Word(odpowiedz)));
 		builder.addButton("PREV");
-		builder.addButton("NEXT");
-		builder.addButton("EXIT");
+		builder.addButton("NEXTTEST");
+		builder.addButton("SCORE");
 		
 		
 		

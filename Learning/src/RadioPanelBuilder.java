@@ -47,9 +47,6 @@ public class RadioPanelBuilder implements Builder{
 	
 	private List<String[]> zleodpowiedzi;
 	
-//	static JPanel panel2 = new JPanel();
-	
-	
 	private IWord selectedAnswer;
 	private ButtonGroup group;
 	
@@ -58,8 +55,6 @@ public class RadioPanelBuilder implements Builder{
 	public void addQuestion(String quest) {
 		panel.setLayout(new BorderLayout());
 		
-		
-
 		
 		String question = new String("Przetłumacz na język angielski "+quest);
 			
@@ -76,8 +71,7 @@ public class RadioPanelBuilder implements Builder{
 		
 		zleodpowiedzi = Program.getIncorrectAnswers();
 		
-
-		String[] zlo = zleodpowiedzi.get(0);
+		String[] zlo = zleodpowiedzi.get(Program.getActualQuestion()-1);
 		
 		checkone = new JLabel(zlo[0]);
 		checktwo = new JLabel(zlo[1]);
@@ -99,7 +93,6 @@ public class RadioPanelBuilder implements Builder{
 		{	n = rand.nextInt(2); }
 
 		
-
 		switch (n) {
 		
 		case 0 : opd1 = new WordDecoratorGreen(new Word(answer.getWord().getText())); break;
@@ -112,11 +105,7 @@ public class RadioPanelBuilder implements Builder{
 		
 		}
 		
-
-		
-	//	answer.decorate(answer.getWord());
-		
-
+				
 		group = new ButtonGroup();
 		
 	     JPanel controlPanel = new JPanel();
@@ -181,9 +170,7 @@ public class RadioPanelBuilder implements Builder{
 		
 		}
 		
-		
-		
-		
+			
 		if(button.equals("CHECK"))
 		{	
 			
@@ -200,8 +187,6 @@ public class RadioPanelBuilder implements Builder{
                    if(radio3.isSelected()) selectedAnswerNumber=3;
                    if(radio4.isSelected()) selectedAnswerNumber=4;
                    
-
-                           
            		switch (selectedAnswerNumber) {
         		
         		case 1 : opd1.decorate(opd1.getWord());        		
@@ -299,6 +284,47 @@ public class RadioPanelBuilder implements Builder{
 
 
 					System.out.println("PREV");
+			 }				   	        		      	 
+			};	 		
+			
+			prevButton.addActionListener(prevListener);		
+			panel2.add(prevButton);
+		}
+		
+		
+		
+		if(button.equals("NEXTTEST"))
+		{	
+			nextButton = new JButton();
+			nextButton.setText("NEXTTEST");   	
+		
+        ActionListener nextListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
+
+					 
+					System.out.println("NEXTTEST");
+			 }				   	        		      	 
+			};	 		
+			
+			nextButton.addActionListener(nextListener);	
+			nextButton.setEnabled(false);
+			panel2.add(nextButton);
+		}
+		
+		
+		if(button.equals("SCORE"))
+		{	
+			JButton prevButton = new JButton();
+			
+			prevButton.setText("SCORE");   	
+		
+        ActionListener prevListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
+
+
+					System.out.println("SCORE");
 			 }				   	        		      	 
 			};	 		
 			
