@@ -227,7 +227,6 @@ public class Program extends JFrame {
 		controlPanel.add(radio1);
 		controlPanel.add(radio2);
 		controlPanel.add(radio3);
-		// mainPanel.add(controlPanel,BorderLayout.CENTER);
 
 		ActionListener crudButtonListener = new ActionListener() {
 
@@ -240,13 +239,9 @@ public class Program extends JFrame {
 
 		crud.listener(crudButtonListener);
 
-		TestState test = new TestState();
+			
+			
 
-		test.build();
-
-		JPanel panel22 = test.getTestLayout();
-
-		// mainPanel.add(panel22,BorderLayout.CENTER);
 		panel.setBackground(Color.white);
 		panel2.setBackground(Color.white);
 		mainPanel.add(panel, BorderLayout.CENTER);
