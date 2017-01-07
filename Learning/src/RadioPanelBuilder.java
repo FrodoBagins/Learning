@@ -13,7 +13,11 @@ public class RadioPanelBuilder implements Builder{
 	
 	private JPanel panel=new JPanel();
 	
-	static JButton butt = new JButton();
+	static JButton exitButton = new JButton();
+	static JButton checkButton = new JButton();
+	static JButton nextButton = new JButton();
+	static JButton prevButton = new JButton();
+	static JPanel panel2 = new JPanel();
 	
 	
 	private IWord selectedAnswer;
@@ -39,7 +43,11 @@ public class RadioPanelBuilder implements Builder{
 		
 	     JPanel controlPanel = new JPanel();
 	     controlPanel.setLayout(new GridLayout(4, 1));
-		
+	     
+		JPanel panel2 = new JPanel();
+		GridLayout layout2 = new GridLayout(3, 3);
+		panel2.setLayout(layout2);
+	
 		
 		JRadioButton radio1 = new JRadioButton("odpowied 1");
 		JRadioButton radio2 = new JRadioButton("odpowiedz 2");
@@ -62,39 +70,92 @@ public class RadioPanelBuilder implements Builder{
 	    	controlPanel.add(radio3);
 	    	controlPanel.add(radio4);
 	    	
-	    	
 	    }
 	      
-	    
 	     panel.add(controlPanel,BorderLayout.CENTER);
-	    
-	    
-	      		
-		
+	    		
 	}
 
 	@Override
 	public void addButton(String button) {
 		
+
+		
+		
 		
 		if(button.equals("EXIT"))
-		{	butt.setText("EXIT");   	
+		{	exitButton.setText("EXIT");   	
 		
         ActionListener exitListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
+					System.out.println("EXIT");
+		 }	};	 		
+			
+		 
+		exitButton.addActionListener(exitListener);		
+		panel2.add(exitButton);
+		
+		}
+		
+		
+		
+		
+		if(button.equals("CHECK"))
+		{	checkButton.setText("CHECK");   	
+		
+        ActionListener checkListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
 
-	
-					
-					System.out.println("ZIMO");
+
+					System.out.println("CHECK");
 			 }				   	        		      	 
 			};	 		
 			
-			
-			butt.addActionListener(exitListener);		
-		panel.add(butt, BorderLayout.SOUTH);
+			checkButton.addActionListener(checkListener);		
+			panel2.add(checkButton);
 		}
 		
+		
+		
+		
+		if(button.equals("NEXT"))
+		{	nextButton.setText("NEXT");   	
+		
+        ActionListener nextListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
+
+
+					System.out.println("NEXT");
+			 }				   	        		      	 
+			};	 		
+			
+			nextButton.addActionListener(nextListener);		
+			panel2.add(nextButton);
+		}
+		
+		
+		
+		
+		if(button.equals("PREV"))
+		{	prevButton.setText("PREV");   	
+		
+        ActionListener prevListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
+
+
+					System.out.println("CHECK");
+			 }				   	        		      	 
+			};	 		
+			
+			prevButton.addActionListener(prevListener);		
+			panel2.add(prevButton);
+		}
+		
+		panel.add(panel2,BorderLayout.SOUTH);
 		
 	}
 	

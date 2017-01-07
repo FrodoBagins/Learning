@@ -57,8 +57,6 @@ private JTextField answerText=new JTextField();
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 				
-				//	Program.refreshMain();
-					
 					
 					System.out.println("ZIMO");
 			 }				   	        		      	 

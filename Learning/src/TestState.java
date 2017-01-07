@@ -22,7 +22,9 @@ public class TestState implements State{
 		
 		builder.addQuestion("Napis");
 		builder.addAnswer(new Word("slowo"));
-		builder.addButton("EXIT");
+		builder.addButton("PREV");
+		builder.addButton("NEXT");
+	//	builder.addButton("EXIT");
 		
 		
 	}

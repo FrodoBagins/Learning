@@ -196,9 +196,11 @@ public class Program extends JFrame {
 			}
 		});
 
+
 		TestState test = new TestState();
 
 		test.build();
+
 
 		panel.setBackground(Color.white);
 		panel2.setBackground(Color.white);
