@@ -17,6 +17,14 @@ public class RadioPanelBuilder implements Builder{
 	static JButton checkButton = new JButton();
 	static JButton nextButton = new JButton();
 	static JButton prevButton = new JButton();
+	
+	private static IWord iiword;
+	
+	static JLabel checkone = new JLabel("1");
+	static JLabel checktwo = new JLabel("2");
+	static JLabel checkthree = new JLabel("3");
+	static JLabel checkfour = new JLabel("4");
+	
 	static JPanel panel2 = new JPanel();
 	
 	
@@ -29,10 +37,15 @@ public class RadioPanelBuilder implements Builder{
 		panel.setLayout(new BorderLayout());
 		
 		
+		//
+		//Dodac ifa z kierunkiem tłumacznia todo
+		//
 		
-		JLabel gameLabel = new JLabel(quest,JLabel.CENTER);
+		String question = new String("Przetłumacz na język angielski "+quest);
+			
+		JLabel gameLabel = new JLabel(question,JLabel.CENTER);
 		panel.add(gameLabel,BorderLayout.NORTH);
-		
+				
 		
 	}
 
@@ -42,33 +55,42 @@ public class RadioPanelBuilder implements Builder{
 		group = new ButtonGroup();
 		
 	     JPanel controlPanel = new JPanel();
-	     controlPanel.setLayout(new GridLayout(4, 1));
+	     controlPanel.setLayout(new GridLayout(2, 1));
 	     
 		JPanel panel2 = new JPanel();
 		GridLayout layout2 = new GridLayout(3, 3);
 		panel2.setLayout(layout2);
-	
 		
-		JRadioButton radio1 = new JRadioButton("odpowied 1");
-		JRadioButton radio2 = new JRadioButton("odpowiedz 2");
-		//JRadioButton radio3 = new JRadioButton("odpowied 3");
+				
+	  //  answer = new WordDecoratorRed(answer);
+	  
+	//	answer.decorate(answer.getWord());
+		
+
+	  
+		JRadioButton radio1 = new JRadioButton();
+		JRadioButton radio2 = new JRadioButton();
 	    
 	      group.add(radio1);
 	      group.add(radio2);
 	      
 		     controlPanel.add(radio1);
+		     controlPanel.add(answer.getWord());
 		     controlPanel.add(radio2);
+		     controlPanel.add(checktwo);
 	      
-	      
-	      
+	      	      
 	    if(Program.getLevel()==2) {
 	    	
-	    	JRadioButton radio3 = new JRadioButton("odpowied 3");
-	    	JRadioButton radio4 = new JRadioButton("odpoeiwd 4");
+	    	JRadioButton radio3 = new JRadioButton();
+	    	JRadioButton radio4 = new JRadioButton();
 	    	group.add(radio3);
 	    	group.add(radio4);
+	    	controlPanel.setLayout(new GridLayout(4,1));
 	    	controlPanel.add(radio3);
+	    	controlPanel.add(checkthree);
 	    	controlPanel.add(radio4);
+	    	controlPanel.add(checkfour);
 	    	
 	    }
 	      
@@ -127,7 +149,7 @@ public class RadioPanelBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-
+					 
 					System.out.println("NEXT");
 			 }				   	        		      	 
 			};	 		

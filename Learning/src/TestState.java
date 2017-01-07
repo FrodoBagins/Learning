@@ -19,12 +19,11 @@ public class TestState implements State{
 		
 		
 		
-		
 		builder.addQuestion("Napis");
-		builder.addAnswer(new Word("slowo"));
+		builder.addAnswer(new WordDecoratorGreen(new Word("slowo")));
 		builder.addButton("PREV");
 		builder.addButton("NEXT");
-	//	builder.addButton("EXIT");
+		builder.addButton("EXIT");
 		
 		
 	}
