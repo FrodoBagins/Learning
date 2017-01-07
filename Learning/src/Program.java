@@ -184,18 +184,18 @@ public class Program extends JFrame {
   				if(modeComboBox.getSelectedIndex()==0)
   				{
   					
-				LearnState learn = new LearnState();
+				state = new LearnState();
 
-				learn.build();
+				state.build();
 
-			    panel22 = learn.getTestLayout(); }
+			    panel22 = state.getTestLayout(); }
   				
   				else {
-  					TestState test = new TestState();
+  					state = new TestState();
 
-  					test.build();
+  					state.build();
 
-  				    panel22 = test.getTestLayout(); 
+  				    panel22 = state.getTestLayout(); 
   				}
 				
 				
