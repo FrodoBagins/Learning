@@ -41,7 +41,7 @@ public class TextBoxBuilder implements Builder{
 		panel.setLayout(laj);
 		
 		
-		String question = new String("Przetłumacz na język angielski "+quest);
+		String question = new String("(Pytanie "+Program.getActualQuestion()+"/"+Program.getCorrectAnswers().size()+") Przetłumacz na język angielski "+quest);
 			
 		gameLabel = new JLabel(question,JLabel.CENTER);
 		panel.add(gameLabel);
@@ -169,6 +169,10 @@ public class TextBoxBuilder implements Builder{
 			 public void actionPerformed(ActionEvent arg0) {			
 
 
+                 if(Program.getActualQuestion()>1)
+				 Program.previousTestState();
+				 
+				 
 					System.out.println("PREV");
 			 }				   	        		      	 
 			};	 		
@@ -187,13 +191,16 @@ public class TextBoxBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
+				 if(Program.getActualQuestion()<10)
+				 Program.nextTestState();
+				 else
+					 Program.setScorePanel();
 					 
 					System.out.println("NEXTTEST");
 			 }				   	        		      	 
 			};	 		
 			
 			nextButton.addActionListener(nextListener);	
-			nextButton.setEnabled(false);
 			panel2.add(nextButton);
 		}
 		
@@ -208,7 +215,7 @@ public class TextBoxBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-
+				 Program.setScorePanel();
 					System.out.println("SCORE");
 			 }				   	        		      	 
 			};	 		

@@ -388,8 +388,10 @@ public class RadioPanelBuilder implements Builder{
 		            
 		            System.out.println(Program.getSelectedComboBox(Program.getActualQuestion())+"    "+Program.getActualQuestion());
 				 
-		//		 if(Program.getActualQuestion()<(Program.getQuestionNumber()-3));
+				 if(Program.getActualQuestion()<10)
 				 Program.nextTestState();
+				 else
+					 Program.setScorePanel();
 					 
 			//		System.out.println("NEXTTEST");
 			 }				   	        		      	 
@@ -410,7 +412,7 @@ public class RadioPanelBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-				
+				Program.setScorePanel();
 
 					System.out.println("SCORE");
 			 }				   	        		      	 
