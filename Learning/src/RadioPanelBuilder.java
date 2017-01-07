@@ -2,6 +2,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Random;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -29,10 +31,12 @@ public class RadioPanelBuilder implements Builder{
 	private JRadioButton radio3 = new JRadioButton();
 	private JRadioButton radio4 = new JRadioButton();
 	
-	static JLabel checkone = new JLabel("1");
-	static JLabel checktwo = new JLabel("2");
-	static JLabel checkthree = new JLabel("3");
-	static JLabel checkfour = new JLabel("4");
+	private JLabel checkone = new JLabel("1");
+	private JLabel checktwo = new JLabel("2");
+	private JLabel checkthree = new JLabel("3");
+	private JLabel checkfour = new JLabel("4");
+	
+	private List<String[]> zleodpowiedzi;
 	
 //	static JPanel panel2 = new JPanel();
 	
@@ -46,9 +50,7 @@ public class RadioPanelBuilder implements Builder{
 		panel.setLayout(new BorderLayout());
 		
 		
-		//
-		//Dodac ifa z kierunkiem tłumacznia todo
-		//
+
 		
 		String question = new String("Przetłumacz na język angielski "+quest);
 			
@@ -61,6 +63,42 @@ public class RadioPanelBuilder implements Builder{
 	@Override
 	public void addAnswer(IWord answer) {
 		
+		
+		zleodpowiedzi = Program.getIncorrectAnswers();
+		
+
+		String[] zlo = zleodpowiedzi.get(1);
+		
+		checkone = new JLabel(zlo[0]);
+		checktwo = new JLabel(zlo[1]);
+		checkthree = new JLabel(zlo[2]);
+		checkfour = new JLabel(zlo[3]);
+		
+		Random rand = new Random();
+		int n = 0;
+		
+		
+		
+		if(Program.getLevel()==2)
+		{	n = rand.nextInt(4);  }
+		
+		if(Program.getLevel()==1)
+		{	n = rand.nextInt(2); }
+
+
+		switch (n) {
+		
+		case 0 : checkone.setText(answer.getWord().getText()); break;
+		
+		case 1 : checktwo.setText(answer.getWord().getText()); break;
+		
+		case 2 : checkthree.setText(answer.getWord().getText()); break;
+		
+		case 3 : checkfour.setText(answer.getWord().getText()); break;
+		
+		}
+		
+
 		group = new ButtonGroup();
 		
 	     JPanel controlPanel = new JPanel();
@@ -70,20 +108,12 @@ public class RadioPanelBuilder implements Builder{
 		GridLayout layout2 = new GridLayout(3, 3);
 		panel2.setLayout(layout2);
 		
-				
-	  //  answer = new WordDecoratorRed(answer);
-	  
-	//	answer.decorate(answer.getWord());
-		
-
-	  
-
-	    
+				   
 	      group.add(radio1);
 	      group.add(radio2);
 	      
 		     controlPanel.add(radio1);
-		     controlPanel.add(answer.getWord());
+		     controlPanel.add(checkone);
 		     controlPanel.add(radio2);
 		     controlPanel.add(checktwo);
 	      

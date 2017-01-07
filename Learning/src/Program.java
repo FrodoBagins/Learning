@@ -41,7 +41,7 @@ public class Program extends JFrame {
 	private static IDbOperations dbOperations = new DbAdapter();
 	private LinkedList<Command> undoHistory = new LinkedList<Command>();
 	private LinkedList<Command> redoHistory = new LinkedList<Command>();
-	private State state;
+	private static State state;
 	private boolean englishPolish;
 	private int score;
 	private int questionNumber;
@@ -162,6 +162,10 @@ public class Program extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				choosedQuestions.clear();
+				correctAnswers.clear();
+				incorrectAnswers.clear();
 				
 				program.makeQuestions(5);
 				program.makeWrongAnswers(15);
