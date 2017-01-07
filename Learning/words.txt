@@ -36,3 +36,5 @@ kot
 cat
 pies
 dogs
+ulica
+streets

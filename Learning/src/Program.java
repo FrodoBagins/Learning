@@ -167,8 +167,8 @@ public class Program extends JFrame {
 				correctAnswers.clear();
 				incorrectAnswers.clear();
 				
-				program.makeQuestions(5);
-				program.makeWrongAnswers(15);
+				program.makeQuestions(10);
+				program.makeWrongAnswers(10);
 				program.showMeNow();
 				
 				

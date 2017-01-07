@@ -22,8 +22,17 @@ public class RadioPanelBuilder implements Builder{
 //	static JButton prevButton = new JButton();
 	
 	private static IWord iiword;
-	private int selectedAnswerNumber;
 	
+	private JButton nextButton;
+	
+	private IWord opd1;
+	private IWord opd2;
+	private IWord opd3;
+	private IWord opd4;
+	
+	
+	private int selectedAnswerNumber;
+	private String rightAnswer;
 	
 	private JPanel panel2 = new JPanel();
 	private JRadioButton radio1 = new JRadioButton();
@@ -63,11 +72,12 @@ public class RadioPanelBuilder implements Builder{
 	@Override
 	public void addAnswer(IWord answer) {
 		
+		rightAnswer = answer.getWord().getText();
 		
 		zleodpowiedzi = Program.getIncorrectAnswers();
 		
 
-		String[] zlo = zleodpowiedzi.get(1);
+		String[] zlo = zleodpowiedzi.get(0);
 		
 		checkone = new JLabel(zlo[0]);
 		checktwo = new JLabel(zlo[1]);
@@ -77,7 +87,10 @@ public class RadioPanelBuilder implements Builder{
 		Random rand = new Random();
 		int n = 0;
 		
-		
+		opd1 = new WordDecoratorRed( new Word(zlo[0]));
+		opd2 = new WordDecoratorRed( new Word(zlo[1]));
+		opd3 = new WordDecoratorRed( new Word(zlo[2]));
+		opd4 = new WordDecoratorRed( new Word(zlo[3]));
 		
 		if(Program.getLevel()==2)
 		{	n = rand.nextInt(4);  }
@@ -85,18 +98,23 @@ public class RadioPanelBuilder implements Builder{
 		if(Program.getLevel()==1)
 		{	n = rand.nextInt(2); }
 
+		
 
 		switch (n) {
 		
-		case 0 : checkone.setText(answer.getWord().getText()); break;
+		case 0 : opd1 = new WordDecoratorGreen(new Word(answer.getWord().getText())); break;
 		
-		case 1 : checktwo.setText(answer.getWord().getText()); break;
+		case 1 : opd2 = new WordDecoratorGreen(new Word(answer.getWord().getText())); break;
 		
-		case 2 : checkthree.setText(answer.getWord().getText()); break;
+		case 2 : opd3 = new WordDecoratorGreen(new Word(answer.getWord().getText())); break;
 		
-		case 3 : checkfour.setText(answer.getWord().getText()); break;
+		case 3 : opd4 = new WordDecoratorGreen(new Word(answer.getWord().getText()));; break;
 		
 		}
+		
+
+		
+	//	answer.decorate(answer.getWord());
 		
 
 		group = new ButtonGroup();
@@ -113,9 +131,9 @@ public class RadioPanelBuilder implements Builder{
 	      group.add(radio2);
 	      
 		     controlPanel.add(radio1);
-		     controlPanel.add(checkone);
+		     controlPanel.add(opd1.getWord());
 		     controlPanel.add(radio2);
-		     controlPanel.add(checktwo);
+		     controlPanel.add(opd2.getWord());
 	      
 	      	      
 	    if(Program.getLevel()==2) {
@@ -125,9 +143,9 @@ public class RadioPanelBuilder implements Builder{
 	    	group.add(radio4);
 	    	controlPanel.setLayout(new GridLayout(4,1));
 	    	controlPanel.add(radio3);
-	    	controlPanel.add(checkthree);
+	    	controlPanel.add(opd3.getWord());
 	    	controlPanel.add(radio4);
-	    	controlPanel.add(checkfour);
+	    	controlPanel.add(opd4.getWord());
 	    	
 	    }
 	      
@@ -182,7 +200,59 @@ public class RadioPanelBuilder implements Builder{
                    if(radio3.isSelected()) selectedAnswerNumber=3;
                    if(radio4.isSelected()) selectedAnswerNumber=4;
                    
-				 
+
+                           
+           		switch (selectedAnswerNumber) {
+        		
+        		case 1 : opd1.decorate(opd1.getWord());        		
+        		if(opd1.getWord().getText()==rightAnswer)
+        		{
+                    radio1.setEnabled(false);
+                    radio2.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);  	
+                    nextButton.setEnabled(true);
+                    
+        		}    		
+        		break;
+        		
+        		case 2 : opd2.decorate(opd2.getWord()); 
+        		if(opd2.getWord().getText()==rightAnswer)
+        		{
+                    radio1.setEnabled(false);
+                    radio2.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);      
+                    nextButton.setEnabled(true);
+        		}       		
+        		break;
+        		
+        		case 3 : opd3.decorate(opd3.getWord()); 
+        		if(opd3.getWord().getText()==rightAnswer)
+        		{
+                    radio1.setEnabled(false);
+                    radio2.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);
+                    nextButton.setEnabled(true);
+        		}
+        		
+        		break;		
+        		case 4 : opd4.decorate(opd4.getWord()); 
+        		if(opd4.getWord().getText()==rightAnswer)
+        		{
+                    radio1.setEnabled(false);
+                    radio2.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);    	
+                    nextButton.setEnabled(true);
+        		}
+        		break;
+        		
+        		}
+                   
+                   
+                 
 				 
 					System.out.println("CHECK"+selectedAnswerNumber);
 			 }				   	        		      	 
@@ -197,7 +267,7 @@ public class RadioPanelBuilder implements Builder{
 		
 		if(button.equals("NEXT"))
 		{	
-			JButton nextButton = new JButton();
+			nextButton = new JButton();
 			nextButton.setText("NEXT");   	
 		
         ActionListener nextListener = new ActionListener(){			  
@@ -209,6 +279,7 @@ public class RadioPanelBuilder implements Builder{
 			 }				   	        		      	 
 			};	 		
 			
+			nextButton.setEnabled(false);
 			nextButton.addActionListener(nextListener);		
 			panel2.add(nextButton);
 		}
