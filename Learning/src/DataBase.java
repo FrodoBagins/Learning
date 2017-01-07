@@ -86,11 +86,6 @@ public class DataBase {
 		}
 	}
 
-	public boolean polishWordExist(String wordPl) {
-		if (data.values().stream().anyMatch(m -> m.containsKey(wordPl)))
-			return true;
-		return false;
-	}
 
 	public static DataBase getDataBase() {
 		return dataBase;

@@ -7,6 +7,5 @@ public interface IDbOperations {
 	public void update(int index, String wordPL, String wordENG);
 	public void delete(int index);
 	public int getWordsCount();
-	public boolean polishWordExist(String wordPl);
 	
 }
