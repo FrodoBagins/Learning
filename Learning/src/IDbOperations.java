@@ -2,10 +2,11 @@ import java.util.Map;
 
 public interface IDbOperations {
 
-	public void create(String str1,String str2);
-	public Map<String,String> read(int int1);
-	public void update(int int1,String str1, String str2);
-	public void delete(int int1);
+	public void create(String wordPL, String wordEng);
+	public Map<String, String> read(int index);
+	public void update(int index, String wordPL, String wordENG);
+	public void delete(int index);
 	public int getWordsCount();
+	public boolean polishWordExist(String wordPl);
 	
 }

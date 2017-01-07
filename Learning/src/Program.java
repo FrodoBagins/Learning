@@ -11,8 +11,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,19 +25,23 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Program extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JPanel mainPanel;
+	private static JPanel mainPanel;
 	private static Program program;
+	private static DefaultListModel<String> wordsList;
+	static IDbOperations dbOperations = new DbAdapter();
 
 	private UiElementFactory factory = new UiElementFactory();
 
@@ -45,16 +51,18 @@ public class Program extends JFrame {
 		// default setting for frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 400);
-		setBackground(Color.white);
+		getContentPane().setBackground(Color.white);
 		setResizable(false);
 		setVisible(true);
 		setBounds(200, 200, getWidth(), getHeight());
-
+		
 		mainPanel = new JPanel();
+		mainPanel.setBackground(Color.white);
 		mainPanel.setBounds(80, 20, 400, 300);
 		mainPanel.setVisible(true);
 
 		BorderLayout layout3 = new BorderLayout();
+		
 		layout3.setHgap(50);
 		layout3.setVgap(50);
 
@@ -214,7 +222,8 @@ public class Program extends JFrame {
 		JPanel panel22 = test.getTestLayout();
 
 		// mainPanel.add(panel22,BorderLayout.CENTER);
-
+		panel.setBackground(Color.white);
+		panel2.setBackground(Color.white);
 		mainPanel.add(panel, BorderLayout.CENTER);
 		mainPanel.add(gameLabel, BorderLayout.NORTH);
 		mainPanel.add(panel2, BorderLayout.SOUTH);
@@ -247,8 +256,8 @@ public class Program extends JFrame {
 		JTextField addEnglishWordText = new JTextField();
 		JTextField editPolishWordText = new JTextField();
 		JTextField editEnglishWordText = new JTextField();
-		JTextField deleteWordPolishText = new JTextField();
-		JTextField deleteWordEnglishText = new JTextField();
+		JTextField deletePolishWordText = new JTextField();
+		JTextField deleteEnglishWordText = new JTextField();
 
 		// labels
 		JLabel crudLabel = new JLabel("Zarządzenie bazą słówek");
@@ -263,31 +272,27 @@ public class Program extends JFrame {
 		JButton editWordButton = new JButton("Edytuj słowo");
 		JButton deleteWordButton = new JButton("Usuń słowo");
 		JButton backToMainButton = new JButton("Panel główny");
-		
 
 		// fonts
 		Font addTextFieldsFont = new Font("Cambria", 0, 24);
-		
-		//lists
-		DefaultListModel<String> editWordsList = new DefaultListModel<String>();
-		JList<String> editList = new JList<String>(editWordsList);
+
+		// lists
+		wordsList = new DefaultListModel<String>();
+		refreshWordsList();
+
+		JList<String> editList = new JList<String>(wordsList);
 		JScrollPane scrollEditList = new JScrollPane(editList);
 		editList.setVisibleRowCount(7);
 		editList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollEditList.setMinimumSize(new Dimension(180,200));
-		scrollEditList.setMaximumSize(new Dimension(180,200));
+		scrollEditList.setMinimumSize(new Dimension(180, 200));
+		scrollEditList.setMaximumSize(new Dimension(180, 200));
 		scrollEditList.setBorder(new LineBorder(Color.BLACK));
-		IDbOperations dbOperations = new DbAdapter();
-		for(int i=0; i<dbOperations.getWordsCount();i++){
-			editWordsList.addElement((String) dbOperations.read(i).keySet().toArray()[0]);
-		}
-		JList<String> deleteList = new JList<String>(editWordsList);
+
+		JList<String> deleteList = new JList<String>(wordsList);
 		JScrollPane scrollDeleteList = new JScrollPane(deleteList);
-		scrollDeleteList.setMinimumSize(new Dimension(180,200));
-		scrollDeleteList.setMaximumSize(new Dimension(180,200));
+		scrollDeleteList.setMinimumSize(new Dimension(180, 200));
+		scrollDeleteList.setMaximumSize(new Dimension(180, 200));
 		scrollDeleteList.setBorder(new LineBorder(Color.BLACK));
-		
-		
 
 		// separators
 		JSeparator horizontalSeparator = new JSeparator();
@@ -303,16 +308,17 @@ public class Program extends JFrame {
 		// panels options
 		crudPanel.setSize(600, 400);
 		crudPanel.setLayout(null);
+		crudPanel.setBackground(Color.white);
 		addWordPanel.setBackground(Color.green);
 		addWordPanel.setLayout(new BoxLayout(addWordPanel, BoxLayout.Y_AXIS));
 		addWordPanel.setBounds(10, 80, 185, 280);
 		addWordPanel.setBorder(new LineBorder(Color.BLACK));
-		
+
 		editWordPanel.setBackground(Color.yellow);
 		editWordPanel.setLayout(new BoxLayout(editWordPanel, BoxLayout.Y_AXIS));
 		editWordPanel.setBounds(205, 80, 185, 280);
 		editWordPanel.setBorder(new LineBorder(Color.BLACK));
-		
+
 		deleteWordPanel.setBackground(Color.red);
 		deleteWordPanel.setLayout(new BoxLayout(deleteWordPanel, BoxLayout.Y_AXIS));
 		deleteWordPanel.setBounds(400, 80, 185, 280);
@@ -330,19 +336,25 @@ public class Program extends JFrame {
 		// text fields options
 		addPolishWordText.setMaximumSize(new Dimension(150, 50));
 		addPolishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		addPolishWordText.setToolTipText("Słowo polskie");
 		addEnglishWordText.setMaximumSize(new Dimension(150, 50));
 		addEnglishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+		addEnglishWordText.setToolTipText("Słowo angielskie");
+
 		editPolishWordText.setMaximumSize(new Dimension(150, 30));
 		editPolishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		editPolishWordText.setToolTipText("Słowo polskie");
 		editEnglishWordText.setMaximumSize(new Dimension(150, 30));
 		editEnglishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		deleteWordPolishText.setMaximumSize(new Dimension(150, 30));
-		deleteWordPolishText.setAlignmentX(Component.CENTER_ALIGNMENT);
-		deleteWordEnglishText.setMaximumSize(new Dimension(150, 30));
-		deleteWordEnglishText.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+		editEnglishWordText.setToolTipText("Słowo angielskie");
+
+		deletePolishWordText.setMaximumSize(new Dimension(150, 30));
+		deletePolishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		deletePolishWordText.setToolTipText("Słowo polskie");
+		deleteEnglishWordText.setMaximumSize(new Dimension(150, 30));
+		deleteEnglishWordText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		deleteEnglishWordText.setToolTipText("Słowo angielskie");
+
 		addPolishWordText.setFont(addTextFieldsFont);
 		addEnglishWordText.setFont(addTextFieldsFont);
 
@@ -358,8 +370,7 @@ public class Program extends JFrame {
 		addWordPanel.add(addEnglishWordText);
 		addWordPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		addWordPanel.add(addWordButton);
-		
-		
+
 		editWordPanel.add(scrollEditList);
 		editWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 		editWordPanel.add(editPolishWordText);
@@ -367,24 +378,105 @@ public class Program extends JFrame {
 		editWordPanel.add(editEnglishWordText);
 		editWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 		editWordPanel.add(editWordButton);
-		
+
 		deleteWordPanel.add(scrollDeleteList);
 		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		deleteWordPanel.add(deleteWordPolishText);
+		deleteWordPanel.add(deletePolishWordText);
 		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		deleteWordPanel.add(deleteWordEnglishText);
+		deleteWordPanel.add(deleteEnglishWordText);
 		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 		deleteWordPanel.add(deleteWordButton);
+
+		// action listeners
+		addWordButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (addPolishWordText.getText().length() > 0 && addEnglishWordText.getText().length() > 0) {
+					dbOperations.create(addPolishWordText.getText().toString(),
+							addEnglishWordText.getText().toString());
+					JOptionPane.showMessageDialog(null, "Poprawnie dodane słowo");
+					addPolishWordText.setText("");
+					addEnglishWordText.setText("");
+					refreshWordsList();
+					editList.setModel(wordsList);
+				} else {
+					JOptionPane.showMessageDialog(null, "Pola nie mogą być puste");
+				}
+
+			}
+		});
+
+		editWordButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (editList.isSelectedIndex(editList.getSelectedIndex())) {
+					if (editPolishWordText.getText().length() > 0 && editEnglishWordText.getText().length() > 0) {
+						dbOperations.update(editList.getSelectedIndex(), editPolishWordText.getText().toString(),
+								editEnglishWordText.getText().toString());
+						JOptionPane.showMessageDialog(null, "Słowo edytowane poprawnie");
+						refreshWordsList();
+						editList.setModel(wordsList);
+					} else {
+						JOptionPane.showMessageDialog(null, "Pola nie mogą być puste");
+					}
+				}
+			}
+		});
+
+		deleteWordButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (deleteList.isSelectedIndex(deleteList.getSelectedIndex())) {
+					dbOperations.delete(deleteList.getSelectedIndex());
+					JOptionPane.showMessageDialog(null, "Słowo usunięte poprawnie");
+					refreshWordsList();
+					editList.setModel(wordsList);
+				}
+			}
+		});
+
+		editList.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (editList.isSelectedIndex(editList.getSelectedIndex())) {
+					Map<String, String> selectedWord = dbOperations.read(editList.getSelectedIndex());
+					editPolishWordText.setText((String) selectedWord.keySet().toArray()[0]);
+					editEnglishWordText.setText(selectedWord.get(selectedWord.keySet().toArray()[0]));
+				}
+			}
+		});
+
+		deleteList.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+
+				if (deleteList.isSelectedIndex(deleteList.getSelectedIndex())) {
+					Map<String, String> selectedWord = dbOperations.read(deleteList.getSelectedIndex());
+					deletePolishWordText.setText((String) selectedWord.keySet().toArray()[0]);
+					deleteEnglishWordText.setText(selectedWord.get(selectedWord.keySet().toArray()[0]));
+				}
+
+			}
+		});
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		backToMainButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {		
+				program.getContentPane().removeAll();
+				program.getContentPane().setBackground(Color.white);				
+				program.setContentPane(mainPanel);
+				program.revalidate();
+				program.repaint();
+				
+				
+			}
+		});
 
 		crudPanel.add(crudLabel);
 		crudPanel.add(backToMainButton);
@@ -395,6 +487,13 @@ public class Program extends JFrame {
 		program.setContentPane(crudPanel);
 
 		return crudPanel;
+	}
+
+	private static void refreshWordsList() {
+		wordsList.clear();
+		for (int i = 0; i < dbOperations.getWordsCount(); i++) {
+			wordsList.addElement((String) dbOperations.read(i).keySet().toArray()[0]);
+		}
 	}
 
 	public static void main(String[] args) {

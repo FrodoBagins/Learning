@@ -1,6 +1,8 @@
-pies
-dog
-kot
-cat
-PL_1
-ANG_1
+t3
+t3
+krowa
+cow
+3t1
+t1
+a
+b

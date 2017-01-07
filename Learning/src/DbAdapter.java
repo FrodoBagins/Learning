@@ -31,4 +31,12 @@ public class DbAdapter implements IDbOperations {
 		return dataBase.getSize();
 	}
 
+	@Override
+	public boolean polishWordExist(String wordPl) {
+		
+		return false;
+	}
+	
+	
+
 }

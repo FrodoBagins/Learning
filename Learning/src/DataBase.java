@@ -1,4 +1,3 @@
-import java.awt.Font;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,21 +7,22 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class DataBase {
 
-	private Map<Integer, Map<String, String>> data;
+	private static Map<Integer, Map<String, String>> data;
 	private static DataBase dataBase = new DataBase();
 	private int wordsCount = 0;
 	public static final String FILE_NAME = "words.txt";
 	private UiElementFactory factory = new UiElementFactory();
 
 	private DataBase() {
+		load();
+	}
+	
+	private void load(){
 		data = new HashMap<Integer, Map<String, String>>();
+		wordsCount = 0;
 
 		// Load from file
 		try (Stream<String> stream = Files.lines(Paths.get(DataBase.FILE_NAME))) {
@@ -40,15 +40,12 @@ public class DataBase {
 		}
 	}
 
-	public boolean createWordsPair(String wordPL, String wordENG) {
-		if (data.values().stream().anyMatch(m -> m.containsKey(wordPL)))
-			return false;
-		else {
+	public void createWordsPair(String wordPL, String wordENG) {
 			Map<String, String> wordsPair = new HashMap<>();
 			wordsPair.put(wordPL, wordENG);
 			data.put(wordsCount, wordsPair);
-			return true;
-		}
+			wordsCount++;
+			save();
 	}
 
 	public Map<String, String> readWordsPair(int index) {
@@ -59,10 +56,13 @@ public class DataBase {
 		Map<String, String> updatedMap = new HashMap<String, String>();
 		updatedMap.put(wordPL, wordENG);
 		data.replace(index, updatedMap);
+		save();
 	}
 
 	public void deleteWordsPair(int index) {
 		data.remove(index);
+		save();
+		load();
 	}
 
 	public int getSize() {
@@ -86,9 +86,14 @@ public class DataBase {
 		}
 	}
 
+	public boolean polishWordExist(String wordPl) {
+		if (data.values().stream().anyMatch(m -> m.containsKey(wordPl)))
+			return true;
+		return false;
+	}
+
 	public static DataBase getDataBase() {
 		return dataBase;
 	}
 
-	
 }
