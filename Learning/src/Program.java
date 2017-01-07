@@ -266,7 +266,7 @@ public class Program extends JFrame {
 		JLabel addEnglishWordLabel = new JLabel("Angielskie słowo: ");
 		JLabel editWordLabel = new JLabel("Edytuj słowo");
 		JLabel deleteWordLabel = new JLabel("Usuń słowo");
-
+    
 		// buttons
 		JButton addWordButton = new JButton("Dodaj słowo");
 		JButton editWordButton = new JButton("Edytuj słowo");
