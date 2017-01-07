@@ -1,24 +1,32 @@
 import java.awt.Color;
-
+import java.awt.Font;
 import javax.swing.JLabel;
 
 public class Word implements IWord {
 	
-	protected static JLabel label;
+	private JLabel label;
 
-	@Override
-	public JLabel undecorate() {
-		// TODO Auto-generated method stub
-		label.setForeground(Color.black);
-		
-		return label;
+	
+	Word(String word) {
+		label = new JLabel(word);
+		label.setFont(new Font("Cambria", Font.PLAIN, 14));
 	}
+	
 
 	@Override
 	public void decorate(JLabel label) {
 		
-		Word.label = label;
+		this.label = label;
 		
 	}
 
+	@Override
+	public JLabel getWord() {
+		return label;
+	}
+
+	@Override
+	public IWord undecorate() {
+		return this;
+	}
 }

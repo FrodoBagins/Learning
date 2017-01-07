@@ -158,12 +158,37 @@ public class Program extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println(mComboBox.getText());
-				System.out.println(lComboBox.getText());
-				System.out.println(dComboBox.getText());
+		   		System.out.println(lComboBox.getText());
+		   		System.out.println(dComboBox.getText());
+		   		
+		   		if(lComboBox.getText().equals("Łatwy")) setLevel(1);
+  				if(lComboBox.getText().equals("Średni")) setLevel(2);
+  				if(lComboBox.getText().equals("Trudny")) setLevel(3);
+  				
+		   		
+			     TestState test = new TestState();
+			     
+			     test.build();
+			     
+			     JPanel panel22 = test.getTestLayout();
+			     
+			     
+			   
+			     
+			     mainPanel.removeAll();
+				 
+				  mainPanel.add(panel22,BorderLayout.CENTER);
+				  										
+					mainPanel.invalidate();
+					mainPanel.validate();
+					mainPanel.repaint();
 
-			}
+		   					
+		   			}
 
-		};
+			};
+
+	
 
 		ActionListener exitButtonListener = new ActionListener() {
 

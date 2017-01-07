@@ -1,35 +1,82 @@
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class TextBoxBuilder implements Builder{
 
-	private JTextField answerText;
+private JTextField answerText=new JTextField();
 	
 	
+	private JPanel panel=new JPanel();
+	
+	
+	
+	static JButton butt = new JButton();
+	
+
+	
+
 	@Override
 	public void addQuestion(String quest) {
-		// TODO Auto-generated method stub
+		panel.setLayout(new BorderLayout());
+		
+		
+		
+		JLabel gameLabel = new JLabel(quest,JLabel.CENTER);
+		panel.add(gameLabel,BorderLayout.NORTH);
+		
 		
 	}
 
 	@Override
 	public void addAnswer(IWord answer) {
-		// TODO Auto-generated method stub
+		
+	       answerText.setText("NNNNNN");
+	       answerText.setBounds(0, 0, 20, 20);
+	    
+	     panel.add(answerText,BorderLayout.CENTER);
+	    
+	    
+	      		
 		
 	}
 
 	@Override
 	public void addButton(String button) {
-		// TODO Auto-generated method stub
+		
+		
+		if(button.equals("EXIT"))
+		{	butt.setText("EXIT");   	
+		
+        ActionListener exitListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
+				
+				//	Program.refreshMain();
+					
+					
+					System.out.println("ZIMO");
+			 }				   	        		      	 
+			};	 		
+			
+			
+			butt.addActionListener(exitListener);		
+		panel.add(butt, BorderLayout.SOUTH);
+		}
+		
 		
 	}
-
-	@Override
-	public JPanel getPanel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
+	public JPanel getPanel(){
+		
+		
+		return this.panel;
+	}
 	
 
 }

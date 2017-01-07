@@ -9,11 +9,20 @@ public class TestState implements State{
 	
 	
 	public void build() {
-		builder = new RadioPanelBuilder();
+		
+		if(Program.getLevel()==3){
+			builder = new TextBoxBuilder();
+		}
+		else {
+			builder = new RadioPanelBuilder();
+		}
+		
+		
 		
 		
 		builder.addQuestion("Napis");
-		
+		builder.addAnswer(new Word("slowo"));
+		builder.addButton("EXIT");
 		
 		
 	}

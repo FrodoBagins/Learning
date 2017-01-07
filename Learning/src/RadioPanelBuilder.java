@@ -1,15 +1,19 @@
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 public class RadioPanelBuilder implements Builder{
 	
-	
 	private JPanel panel=new JPanel();
+	
+	static JButton butt = new JButton();
 	
 	
 	private IWord selectedAnswer;
@@ -18,23 +22,23 @@ public class RadioPanelBuilder implements Builder{
 
 	@Override
 	public void addQuestion(String quest) {
+		panel.setLayout(new BorderLayout());
 		
 		
-		
-		// TODO Auto-generated method stub
 		
 		JLabel gameLabel = new JLabel(quest,JLabel.CENTER);
-		panel.add(gameLabel);
+		panel.add(gameLabel,BorderLayout.NORTH);
 		
 		
 	}
 
 	@Override
 	public void addAnswer(IWord answer) {
-		// TODO Auto-generated method stub
+		
+		group = new ButtonGroup();
 		
 	     JPanel controlPanel = new JPanel();
-	     controlPanel.setLayout(new GridLayout(3, 1));
+	     controlPanel.setLayout(new GridLayout(4, 1));
 		
 		
 		JRadioButton radio1 = new JRadioButton("odpowied 1");
@@ -43,6 +47,7 @@ public class RadioPanelBuilder implements Builder{
 	    
 	      group.add(radio1);
 	      group.add(radio2);
+	      
 		     controlPanel.add(radio1);
 		     controlPanel.add(radio2);
 	      
@@ -55,13 +60,13 @@ public class RadioPanelBuilder implements Builder{
 	    	group.add(radio3);
 	    	group.add(radio4);
 	    	controlPanel.add(radio3);
-	    	controlPanel.add(radio3);
+	    	controlPanel.add(radio4);
 	    	
 	    	
 	    }
 	      
 	    
-	     panel.add(controlPanel);
+	     panel.add(controlPanel,BorderLayout.CENTER);
 	    
 	    
 	      		
@@ -72,8 +77,23 @@ public class RadioPanelBuilder implements Builder{
 	public void addButton(String button) {
 		
 		
+		if(button.equals("EXIT"))
+		{	butt.setText("EXIT");   	
 		
-		// TODO Auto-generated method stub
+        ActionListener exitListener = new ActionListener(){			  
+			 @Override
+			 public void actionPerformed(ActionEvent arg0) {			
+
+	
+					
+					System.out.println("ZIMO");
+			 }				   	        		      	 
+			};	 		
+			
+			
+			butt.addActionListener(exitListener);		
+		panel.add(butt, BorderLayout.SOUTH);
+		}
 		
 		
 	}

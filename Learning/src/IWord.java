@@ -2,7 +2,7 @@ import javax.swing.JLabel;
 
 public interface IWord {
 	
-	public JLabel undecorate();
-	public void decorate(JLabel label);
-
+	public void decorate(JLabel word);
+	public JLabel getWord();
+	public IWord undecorate();
 }

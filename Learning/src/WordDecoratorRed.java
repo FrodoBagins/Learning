@@ -1,22 +1,31 @@
+import java.awt.Color;
+
 import javax.swing.JLabel;
 
 public class WordDecoratorRed extends WordDecorator{
 
+
 	public WordDecoratorRed(IWord decoratedWord) {
 		super(decoratedWord);
-		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public JLabel undecorate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void decorate(JLabel label) {
-		// TODO Auto-generated method stub
-		
+		label.setForeground(Color.RED);
+		super.decorate(label);
 	}
 
-}
+	@Override
+	public JLabel getWord() {
+		return super.getWord();
+	}
+
+	@Override
+	public IWord undecorate() {
+		return super.undecorate();
+	}
+	
+	}
+
+
