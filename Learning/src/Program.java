@@ -7,12 +7,12 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -156,7 +156,8 @@ public class Program extends JFrame {
 				mainPanel.validate();
 				mainPanel.repaint();
 
-				makeQuestions(2);
+				makeQuestions(1);
+				makeWrongAnswers(15);
 				showMeNow();
 
 			}
@@ -196,11 +197,9 @@ public class Program extends JFrame {
 			}
 		});
 
-
 		TestState test = new TestState();
 
 		test.build();
-
 
 		panel.setBackground(Color.white);
 		panel2.setBackground(Color.white);
@@ -229,11 +228,9 @@ public class Program extends JFrame {
 				}
 				Map<String, String> selectedQuestion = dbOperations.read(randomNumber);
 				if (directionComboBox.getSelectedIndex() == 0) {
-					System.out.println(directionComboBox.getSelectedIndex() + "!!!!!! IF");
 					choosedQuestions.add((String) selectedQuestion.keySet().toArray()[0]);
 					correctAnswers.add(selectedQuestion.get((String) selectedQuestion.keySet().toArray()[0]));
 				} else {
-					System.out.println(directionComboBox.getSelectedIndex() + "!!!!!!!! ELSE");
 					choosedQuestions.add(selectedQuestion.get((String) selectedQuestion.keySet().toArray()[0]));
 					correctAnswers.add((String) selectedQuestion.keySet().toArray()[0]);
 
@@ -241,6 +238,43 @@ public class Program extends JFrame {
 				choosedNumbers.put(randomNumber, 0);
 
 			}
+		}
+	}
+
+	public void makeWrongAnswers(int NumberOfWrongAnswers) { // for each
+																// question
+		int numberOfQuestions = choosedQuestions.size();
+		if (numberOfQuestions == 0)
+			throw new NullPointerException("Choose questions first");
+		if (NumberOfWrongAnswers <= dbOperations.getWordsCount() - 1) {
+			Random random = new Random();
+			for (int i = 0; i < numberOfQuestions; i++) {
+				// random question
+				String wrongAnswers[] = new String[NumberOfWrongAnswers];
+				for (int j = 0; j < NumberOfWrongAnswers; j++) {
+					Map<String, String> randomQuestion = dbOperations
+							.read(random.nextInt(dbOperations.getWordsCount()));
+					if (directionComboBox.getSelectedIndex() == 0) {
+						while (randomQuestion.keySet().toArray()[0].toString().equals(choosedQuestions.get(i))
+								|| Arrays.asList(wrongAnswers).contains(
+										randomQuestion.get(randomQuestion.keySet().toArray()[0].toString()))) {
+							randomQuestion = dbOperations.read(random.nextInt(dbOperations.getWordsCount()));
+						}
+						wrongAnswers[j] = randomQuestion.get((String) randomQuestion.keySet().toArray()[0]);
+
+					} else {
+						while (randomQuestion.get((String) randomQuestion.keySet().toArray()[0])
+								.equals(choosedQuestions.get(i)) || Arrays.asList(wrongAnswers).contains(randomQuestion.keySet().toArray()[0].toString())) {
+							randomQuestion = dbOperations.read(random.nextInt(dbOperations.getWordsCount()));
+						}
+						wrongAnswers[j] = (String) randomQuestion.keySet().toArray()[0];
+
+					}
+				}
+				incorrectAnswers.add(wrongAnswers);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Nie wystarczająca ilość pytań błędnych w bazie dla tego poziomu");
 		}
 	}
 
@@ -253,12 +287,14 @@ public class Program extends JFrame {
 		for (String s : correctAnswers) {
 			System.out.println(s);
 		}
-		// System.out.println("Wrong answers");
-		// for(String[] tab : incorrectAnswers){
-		// for(String k : tab){
-		// System.out.println(k);
-		// }
-		// }
+		System.out.println("Wrong answers");
+		for (String[] tab : incorrectAnswers) {
+			for (String k : tab) {
+				System.out.println(k);
+
+			}
+			System.out.println("----");
+		}
 	}
 
 	public static int getLevel() {

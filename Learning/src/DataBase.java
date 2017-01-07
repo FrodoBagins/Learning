@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Stream;
 
-
 public class DataBase {
 
 	private static Map<Integer, Map<String, String>> data;
@@ -19,8 +18,8 @@ public class DataBase {
 	private DataBase() {
 		load();
 	}
-	
-	private void load(){
+
+	private void load() {
 		data = new HashMap<Integer, Map<String, String>>();
 		wordsCount = 0;
 
@@ -28,7 +27,6 @@ public class DataBase {
 		try (Stream<String> stream = Files.lines(Paths.get(DataBase.FILE_NAME))) {
 			Iterator<String> iterator = stream.iterator();
 			iterator.forEachRemaining(w -> {
-				System.out.println(w);
 				HashMap<String, String> wordsPair = new HashMap<String, String>();
 				wordsPair.put(w, iterator.next());
 				data.put(wordsCount, wordsPair);
@@ -41,11 +39,11 @@ public class DataBase {
 	}
 
 	public void createWordsPair(String wordPL, String wordENG) {
-			Map<String, String> wordsPair = new HashMap<>();
-			wordsPair.put(wordPL, wordENG);
-			data.put(wordsCount, wordsPair);
-			wordsCount++;
-			save();
+		Map<String, String> wordsPair = new HashMap<>();
+		wordsPair.put(wordPL, wordENG);
+		data.put(wordsCount, wordsPair);
+		wordsCount++;
+		save();
 	}
 
 	public Map<String, String> readWordsPair(int index) {
@@ -86,9 +84,16 @@ public class DataBase {
 		}
 	}
 
-
 	public static DataBase getDataBase() {
 		return dataBase;
+	}
+
+	public boolean equalsPolishWord(String wordPl) {
+		if (data.values().stream().anyMatch(m -> m.containsKey(wordPl)))
+			return true;
+		else {
+			return false;
+		}
 	}
 
 }
