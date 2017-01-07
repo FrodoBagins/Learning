@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,6 +75,15 @@ public class RadioPanelBuilder implements Builder{
 		
 		String[] zlo = zleodpowiedzi.get(Program.getActualQuestion()-1);
 		
+		
+		
+		
+		
+
+		
+		
+		
+		
 		checkone = new JLabel(zlo[0]);
 		checktwo = new JLabel(zlo[1]);
 		checkthree = new JLabel(zlo[2]);
@@ -112,6 +122,9 @@ public class RadioPanelBuilder implements Builder{
 	     JPanel controlPanel = new JPanel();
 	     controlPanel.setLayout(new GridLayout(2, 1));
 	     
+	  //   controlPanel.setLayout(new GridLayout(4, 1));
+	     controlPanel.setPreferredSize(new Dimension(50, 50));
+	     
 		JPanel panel2 = new JPanel();
 		GridLayout layout2 = new GridLayout(3, 3);
 		panel2.setLayout(layout2);
@@ -138,6 +151,18 @@ public class RadioPanelBuilder implements Builder{
 	    	controlPanel.add(opd4.getWord());
 	    	
 	    }
+	    
+		if(Program.getSelectedComboBox(Program.getActualQuestion())==1)
+			radio1.setSelected(true);
+		if(Program.getSelectedComboBox(Program.getActualQuestion())==2)
+			radio2.setSelected(true);
+		if(Program.getSelectedComboBox(Program.getActualQuestion())==3)
+			radio3.setSelected(true);
+		if(Program.getSelectedComboBox(Program.getActualQuestion())==4)
+			radio4.setSelected(true);
+			
+	    
+
 	      
 	     panel.add(controlPanel,BorderLayout.CENTER);
 	    		
@@ -238,7 +263,12 @@ public class RadioPanelBuilder implements Builder{
         		}
                    
                    
-                 
+			    if(Program.getActualQuestion()==Program.getQuestionNumber())
+			    {
+			    	
+			    	nextButton.setEnabled(false);
+			    	
+			    }
 				 
 					System.out.println("CHECK"+selectedAnswerNumber);
 			 }				   	        		      	 
@@ -264,9 +294,17 @@ public class RadioPanelBuilder implements Builder{
 				 
 				 System.out.println(Program.getScore());
 				    
-				    if(Program.getActualQuestion()==Program.getQuestionNumber())
-				    	Program.showMainPanel();
-				    else
+				 
+						 		 
+				//    if(Program.getActualQuestion()==Program.getQuestionNumber())
+				 //   {
+				    	
+				//    	nextButton.setEnabled(false);
+				    	
+				//    }
+				  //  if(Program.getActualQuestion()==Program.getQuestionNumber())
+				  //  	Program.showMainPanel();
+				   
 				        Program.nextLearnState();	 
 				 
 					System.out.println("NEXT");
@@ -289,9 +327,27 @@ public class RadioPanelBuilder implements Builder{
 		
         ActionListener prevListener = new ActionListener(){			  
 			 @Override
-			 public void actionPerformed(ActionEvent arg0) {			
+			 public void actionPerformed(ActionEvent arg0) {	
+				 
+				 
+		            if(radio1.isSelected()) 
+		            	
+		            	Program.setSelectedComboBox(1, Program.getActualQuestion());
+		            if(radio2.isSelected()) 
+		            	
+		            	Program.setSelectedComboBox(2, Program.getActualQuestion());
+		            if(radio3.isSelected()) 
+		            	
+		            	Program.setSelectedComboBox(3, Program.getActualQuestion());
+		            if(radio4.isSelected()) 
+		            
+		            	Program.setSelectedComboBox(4, Program.getActualQuestion());
+				 
+		            System.out.println(Program.getSelectedComboBox(Program.getActualQuestion())+"    "+Program.getActualQuestion());
 
-
+                 if(Program.getActualQuestion()>1)
+				 Program.previousTestState();
+				 
 					System.out.println("PREV");
 			 }				   	        		      	 
 			};	 		
@@ -306,18 +362,40 @@ public class RadioPanelBuilder implements Builder{
 		{	
 			nextButton = new JButton();
 			nextButton.setText("NEXTTEST");   	
+			
+
+			
 		
         ActionListener nextListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
+				 
+					
+		            if(radio1.isSelected()) 
+		            	
+		            	Program.setSelectedComboBox(1, Program.getActualQuestion());
+		            if(radio2.isSelected()) 
+		            	
+		            	Program.setSelectedComboBox(2, Program.getActualQuestion());
+		            if(radio3.isSelected()) 
+		            	
+		            	Program.setSelectedComboBox(3, Program.getActualQuestion());
+		            if(radio4.isSelected()) 
+		            	
+		            	Program.setSelectedComboBox(4, Program.getActualQuestion());
+					
+		            
+		            System.out.println(Program.getSelectedComboBox(Program.getActualQuestion())+"    "+Program.getActualQuestion());
+				 
+		//		 if(Program.getActualQuestion()<(Program.getQuestionNumber()-3));
+				 Program.nextTestState();
 					 
-					System.out.println("NEXTTEST");
+			//		System.out.println("NEXTTEST");
 			 }				   	        		      	 
 			};	 		
 			
 			nextButton.addActionListener(nextListener);	
-			nextButton.setEnabled(false);
 			panel2.add(nextButton);
 		}
 		
@@ -332,6 +410,7 @@ public class RadioPanelBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
+				
 
 					System.out.println("SCORE");
 			 }				   	        		      	 

@@ -48,6 +48,7 @@ public class Program extends JFrame {
 	private static List<String> choosedQuestions = new ArrayList<String>();
 	private static List<String> correctAnswers = new ArrayList<String>();
 	private static List<String[]> incorrectAnswers = new ArrayList<String[]>();
+	private static int[] selectedComboBox = new int[10];
 	private static int level;
 	private static int actualQuestion;
 	private Builder builder;
@@ -81,6 +82,21 @@ public class Program extends JFrame {
 		program.repaint();
 	}
 	
+	public static void setSelectedComboBox(int value, int number) {
+		
+		
+		Program.selectedComboBox[number-1]= value;
+		
+		
+	}
+	
+	
+	public static int getSelectedComboBox(int number){
+		
+		return selectedComboBox[number-1];
+	}
+	
+	
 	public static void nextLearnState() {
 		
 		program.setActualQuestion(Program.getActualQuestion()+1);
@@ -88,6 +104,50 @@ public class Program extends JFrame {
 		JPanel panelLearn = new JPanel();
 						
 		state = new LearnState();
+
+		state.build();
+		
+		panelLearn = state.getTestLayout();
+		
+		program.getContentPane().removeAll();
+		System.out.println("powrót do menu");
+		program.getContentPane().setBackground(Color.white);
+		program.setContentPane(panelLearn);
+		program.revalidate();
+		program.repaint();
+			
+	}
+	
+	
+	public static void nextTestState() {
+		
+		program.setActualQuestion(Program.getActualQuestion()+1);
+		
+		JPanel panelLearn = new JPanel();
+						
+		state = new TestState();
+
+		state.build();
+		
+		panelLearn = state.getTestLayout();
+		
+		program.getContentPane().removeAll();
+		System.out.println("powrót do menu");
+		program.getContentPane().setBackground(Color.white);
+		program.setContentPane(panelLearn);
+		program.revalidate();
+		program.repaint();
+			
+	}
+	
+	
+	public static void previousTestState() {
+		
+		program.setActualQuestion(Program.getActualQuestion()-1);
+		
+		JPanel panelLearn = new JPanel();
+						
+		state = new TestState();
 
 		state.build();
 		
@@ -187,6 +247,8 @@ public class Program extends JFrame {
 				program.setQuestionNumber(10);
 				program.setScore(0);
 				program.showMeNow();
+				
+			//	Program.selectedComboBox = new int[10]
 				
 				
 				program.setActualQuestion(1);
