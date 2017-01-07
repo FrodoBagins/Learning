@@ -43,7 +43,7 @@ public class Program extends JFrame {
 	private LinkedList<Command> redoHistory = new LinkedList<Command>();
 	private static State state;
 	private boolean englishPolish;
-	private int score;
+	private static int score;
 	private static int questionNumber;
 	private static List<String> choosedQuestions = new ArrayList<String>();
 	private static List<String> correctAnswers = new ArrayList<String>();
@@ -185,6 +185,7 @@ public class Program extends JFrame {
 				program.makeQuestions(10);
 				program.makeWrongAnswers(10);
 				program.setQuestionNumber(10);
+				program.setScore(0);
 				program.showMeNow();
 				
 				
@@ -374,6 +375,16 @@ public class Program extends JFrame {
 
 	}
 	
+	
+	public static int getScore() {
+		
+		return score;
+	}
+	
+	public static void setScore(int scores) {
+		
+		Program.score = scores;
+	}
 	
 	public static int getActualQuestion() {
 

@@ -260,8 +260,10 @@ public class RadioPanelBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {		
 				 
+				    Program.setScore(Program.getScore()+1);
 				 
-				 
+				 System.out.println(Program.getScore());
+				    
 				    if(Program.getActualQuestion()==Program.getQuestionNumber())
 				    	Program.showMainPanel();
 				    else

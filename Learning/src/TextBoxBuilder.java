@@ -141,7 +141,11 @@ public class TextBoxBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-					 
+				    if(Program.getActualQuestion()==Program.getQuestionNumber())
+				    	Program.showMainPanel();
+				    else
+				        Program.nextLearnState();	 
+				 
 					System.out.println("NEXT");
 			 }				   	        		      	 
 			};	 		
