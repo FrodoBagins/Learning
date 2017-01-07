@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -19,9 +20,14 @@ public class RadioPanelBuilder implements Builder{
 //	static JButton prevButton = new JButton();
 	
 	private static IWord iiword;
+	private int selectedAnswerNumber;
 	
 	
 	private JPanel panel2 = new JPanel();
+	private JRadioButton radio1 = new JRadioButton();
+	private JRadioButton radio2 = new JRadioButton();
+	private JRadioButton radio3 = new JRadioButton();
+	private JRadioButton radio4 = new JRadioButton();
 	
 	static JLabel checkone = new JLabel("1");
 	static JLabel checktwo = new JLabel("2");
@@ -71,8 +77,7 @@ public class RadioPanelBuilder implements Builder{
 		
 
 	  
-		JRadioButton radio1 = new JRadioButton();
-		JRadioButton radio2 = new JRadioButton();
+
 	    
 	      group.add(radio1);
 	      group.add(radio2);
@@ -85,8 +90,7 @@ public class RadioPanelBuilder implements Builder{
 	      	      
 	    if(Program.getLevel()==2) {
 	    	
-	    	JRadioButton radio3 = new JRadioButton();
-	    	JRadioButton radio4 = new JRadioButton();
+
 	    	group.add(radio3);
 	    	group.add(radio4);
 	    	controlPanel.setLayout(new GridLayout(4,1));
@@ -120,10 +124,7 @@ public class RadioPanelBuilder implements Builder{
 					System.out.println("EXIT");
 					
 					Program.showMainPanel();
-				//	Program.setMainPanel();
-					
-					
-					
+							
 		 }	};	 		
 			
 		 
@@ -146,8 +147,14 @@ public class RadioPanelBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-
-					System.out.println("CHECK");
+                   if(radio1.isSelected()) selectedAnswerNumber=1;
+                   if(radio2.isSelected()) selectedAnswerNumber=2;
+                   if(radio3.isSelected()) selectedAnswerNumber=3;
+                   if(radio4.isSelected()) selectedAnswerNumber=4;
+                   
+				 
+				 
+					System.out.println("CHECK"+selectedAnswerNumber);
 			 }				   	        		      	 
 			};	 		
 			

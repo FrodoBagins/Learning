@@ -15,12 +15,14 @@ private JTextField answerText=new JTextField();
 	
 	private JPanel panel=new JPanel();
 	
+	private JLabel gameLabel;
+	
 //	static JButton exitButton = new JButton();
 //	static JButton checkButton = new JButton();
 //	static JButton nextButton = new JButton();
 //	static JButton prevButton = new JButton();
 	private JPanel panel2 = new JPanel();
-	
+	private String selectedAnswerString;
 
 	@Override
 	public void addQuestion(String quest) {
@@ -34,7 +36,7 @@ private JTextField answerText=new JTextField();
 		
 		String question = new String("Przetłumacz na język angielski "+quest);
 			
-		JLabel gameLabel = new JLabel(question,JLabel.CENTER);
+		gameLabel = new JLabel(question,JLabel.CENTER);
 		panel.add(gameLabel,BorderLayout.NORTH);
 				
 	}
@@ -97,8 +99,9 @@ private JTextField answerText=new JTextField();
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
+				 selectedAnswerString=answerText.getText();
 
-					System.out.println("CHECK");
+					System.out.println("CHECK"+selectedAnswerString);
 			 }				   	        		      	 
 			};	 		
 			

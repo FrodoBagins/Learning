@@ -34,3 +34,5 @@ dom
 house
 kot
 cat
+pies
+dogs

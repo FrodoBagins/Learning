@@ -45,11 +45,11 @@ public class Program extends JFrame {
 	private boolean englishPolish;
 	private int score;
 	private int questionNumber;
-	private List<String> choosedQuestions = new ArrayList<String>();
-	private List<String> correctAnswers = new ArrayList<String>();
-	private List<String[]> incorrectAnswers = new ArrayList<String[]>();
+	private static List<String> choosedQuestions = new ArrayList<String>();
+	private static List<String> correctAnswers = new ArrayList<String>();
+	private static List<String[]> incorrectAnswers = new ArrayList<String[]>();
 	private static int level;
-	private int actualQuestion;
+	private static int actualQuestion;
 	private Builder builder;
 //	private JButton startButton;
 //	private JButton exitButton;
@@ -163,6 +163,13 @@ public class Program extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				program.makeQuestions(5);
+				program.makeWrongAnswers(15);
+				program.showMeNow();
+				
+				
+				program.setActualQuestion(1);
+				
 		   		if(levelComboBox.getSelectedIndex()==0) program.setLevel(1);
   				if(levelComboBox.getSelectedIndex()==1) program.setLevel(2);
   				if(levelComboBox.getSelectedIndex()==2) program.setLevel(3);
@@ -172,6 +179,7 @@ public class Program extends JFrame {
   				
   				if(modeComboBox.getSelectedIndex()==0)
   				{
+  					
 				LearnState learn = new LearnState();
 
 				learn.build();
@@ -196,9 +204,7 @@ public class Program extends JFrame {
 				program.repaint();
 
 
-			program.makeQuestions(1);
-			program.makeWrongAnswers(15);
-			program.showMeNow();
+
 
 			}
 		});
@@ -213,21 +219,6 @@ public class Program extends JFrame {
 			}
 		});
 
-		JRadioButton radio1 = new JRadioButton("odpowied 1");
-		JRadioButton radio2 = new JRadioButton("odpowiedz 2");
-		JRadioButton radio3 = new JRadioButton("odpowied 3");
-
-		ButtonGroup group = new ButtonGroup();
-		group.add(radio1);
-		group.add(radio2);
-		group.add(radio3);
-
-		JPanel controlPanel = new JPanel();
-		controlPanel.setLayout(new GridLayout(3, 1));
-
-		controlPanel.add(radio1);
-		controlPanel.add(radio2);
-		controlPanel.add(radio3);
 
 		crudOperationsButton.addActionListener(new ActionListener() {
 
@@ -337,6 +328,19 @@ public class Program extends JFrame {
 			System.out.println("----");
 		}
 	}
+	
+	
+	public static List<String> getCorrectAnswers(){
+		return correctAnswers;
+	}
+	
+	public static List<String> getChoosedQuestions() {
+		return choosedQuestions;
+	}
+	
+	public static List<String[]> getIncorrectAnswers() {
+		return incorrectAnswers;
+	}
 
 	public static int getLevel() {
 
@@ -347,6 +351,19 @@ public class Program extends JFrame {
 	public void setLevel(int level) {
 
 		Program.level = level;
+
+	}
+	
+	
+	public static int getActualQuestion() {
+
+		return actualQuestion;
+
+	}
+
+	public void setActualQuestion(int level) {
+
+		Program.actualQuestion = level;
 
 	}
 
