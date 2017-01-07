@@ -32,6 +32,7 @@ public class RadioPanelBuilder implements Builder{
 	
 	
 	private int selectedAnswerNumber;
+	private int numberOfQuestions;
 	private String rightAnswer;
 	
 	private JPanel panel2 = new JPanel();
@@ -257,9 +258,15 @@ public class RadioPanelBuilder implements Builder{
 		
         ActionListener nextListener = new ActionListener(){			  
 			 @Override
-			 public void actionPerformed(ActionEvent arg0) {			
-
-					 
+			 public void actionPerformed(ActionEvent arg0) {		
+				 
+				 
+				 
+				    if(Program.getActualQuestion()==Program.getQuestionNumber())
+				    	Program.showMainPanel();
+				    else
+				        Program.nextLearnState();	 
+				 
 					System.out.println("NEXT");
 			 }				   	        		      	 
 			};	 		

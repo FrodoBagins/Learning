@@ -44,7 +44,7 @@ public class Program extends JFrame {
 	private static State state;
 	private boolean englishPolish;
 	private int score;
-	private int questionNumber;
+	private static int questionNumber;
 	private static List<String> choosedQuestions = new ArrayList<String>();
 	private static List<String> correctAnswers = new ArrayList<String>();
 	private static List<String[]> incorrectAnswers = new ArrayList<String[]>();
@@ -79,6 +79,27 @@ public class Program extends JFrame {
 		program.setContentPane(Program.setMainPanel());
 		program.revalidate();
 		program.repaint();
+	}
+	
+	public static void nextLearnState() {
+		
+		program.setActualQuestion(Program.getActualQuestion()+1);
+		
+		JPanel panelLearn = new JPanel();
+						
+		state = new LearnState();
+
+		state.build();
+		
+		panelLearn = state.getTestLayout();
+		
+		program.getContentPane().removeAll();
+		System.out.println("powrót do menu");
+		program.getContentPane().setBackground(Color.white);
+		program.setContentPane(panelLearn);
+		program.revalidate();
+		program.repaint();
+			
 	}
 
 	public static JPanel setMainPanel() {
@@ -149,6 +170,8 @@ public class Program extends JFrame {
 		panel2.add(startGame);
 		panel2.add(crudOperationsButton);
 
+		
+		
 
 		startGame.addActionListener(new ActionListener() {
 
@@ -161,6 +184,7 @@ public class Program extends JFrame {
 				
 				program.makeQuestions(10);
 				program.makeWrongAnswers(10);
+				program.setQuestionNumber(10);
 				program.showMeNow();
 				
 				
@@ -360,6 +384,18 @@ public class Program extends JFrame {
 	public void setActualQuestion(int level) {
 
 		Program.actualQuestion = level;
+
+	}
+	
+	public static int getQuestionNumber() {
+
+		return questionNumber;
+
+	}
+
+	public void setQuestionNumber(int level) {
+
+		Program.questionNumber = level;
 
 	}
 
