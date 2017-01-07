@@ -49,6 +49,7 @@ public class Program extends JFrame {
 	private static List<String> correctAnswers = new ArrayList<String>();
 	private static List<String[]> incorrectAnswers = new ArrayList<String[]>();
 	private static int[] selectedComboBox = new int[10];
+	private static int[] randomNumber = new int[10];
 	private static String[] selectedTextBox = new String[10];
 	private static int level;
 	private static int actualQuestion;
@@ -97,6 +98,20 @@ public class Program extends JFrame {
 		return selectedComboBox[number-1];
 	}
 	
+	
+	public static void setSelectedRandom(int value, int number) {
+		
+		
+		Program.randomNumber[number-1]= value;
+		
+		
+	}
+	
+	
+	public static int getSelectedRandom(int number){
+		
+		return randomNumber[number-1];
+	}
 	
 	public static void setSelectedTextBox(String value, int number) {
 		

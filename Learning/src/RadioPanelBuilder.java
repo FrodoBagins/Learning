@@ -75,15 +75,7 @@ public class RadioPanelBuilder implements Builder{
 		
 		String[] zlo = zleodpowiedzi.get(Program.getActualQuestion()-1);
 		
-		
-		
-		
-		
-
-		
-		
-		
-		
+				
 		checkone = new JLabel(zlo[0]);
 		checktwo = new JLabel(zlo[1]);
 		checkthree = new JLabel(zlo[2]);
@@ -103,6 +95,12 @@ public class RadioPanelBuilder implements Builder{
 		if(Program.getLevel()==1)
 		{	n = rand.nextInt(2); }
 
+		
+		if(Program.getSelectedRandom(Program.getActualQuestion())>0)
+			n=Program.getSelectedRandom(Program.getActualQuestion());
+		else
+			Program.setSelectedRandom(n, Program.getActualQuestion());
+		
 		
 		switch (n) {
 		
@@ -331,19 +329,19 @@ public class RadioPanelBuilder implements Builder{
 				 
 				 
 		            if(radio1.isSelected()) 
-		            	
-		            	Program.setSelectedComboBox(1, Program.getActualQuestion());
+		            {	Program.setSelectedTextBox(opd1.getWord().getText(), Program.getActualQuestion());
+		            	Program.setSelectedComboBox(1, Program.getActualQuestion());   }
 		            if(radio2.isSelected()) 
-		            	
-		            	Program.setSelectedComboBox(2, Program.getActualQuestion());
+		            {	Program.setSelectedTextBox(opd2.getWord().getText(), Program.getActualQuestion());
+		            	Program.setSelectedComboBox(2, Program.getActualQuestion());   }
 		            if(radio3.isSelected()) 
-		            	
-		            	Program.setSelectedComboBox(3, Program.getActualQuestion());
+		            {	Program.setSelectedTextBox(opd3.getWord().getText(), Program.getActualQuestion());
+		            	Program.setSelectedComboBox(3, Program.getActualQuestion());   }
 		            if(radio4.isSelected()) 
-		            
-		            	Program.setSelectedComboBox(4, Program.getActualQuestion());
+		            {Program.setSelectedTextBox(opd4.getWord().getText(), Program.getActualQuestion());
+		            	Program.setSelectedComboBox(4, Program.getActualQuestion());   }
 				 
-		            System.out.println(Program.getSelectedComboBox(Program.getActualQuestion())+"    "+Program.getActualQuestion());
+		            System.out.println(Program.getSelectedComboBox(Program.getActualQuestion())+"    "+Program.getActualQuestion()+" "+Program.getSelectedTextBox(Program.getActualQuestion()));
 
                  if(Program.getActualQuestion()>1)
 				 Program.previousTestState();
@@ -373,20 +371,21 @@ public class RadioPanelBuilder implements Builder{
 				 
 					
 		            if(radio1.isSelected()) 
-		            	
-		            	Program.setSelectedComboBox(1, Program.getActualQuestion());
+		            { 	Program.setSelectedTextBox(opd1.getWord().getText(), Program.getActualQuestion());
+		            	Program.setSelectedComboBox(1, Program.getActualQuestion());   }
 		            if(radio2.isSelected()) 
-		            	
-		            	Program.setSelectedComboBox(2, Program.getActualQuestion());
+		            {	Program.setSelectedTextBox(opd2.getWord().getText(), Program.getActualQuestion());
+		            	Program.setSelectedComboBox(2, Program.getActualQuestion());    }
 		            if(radio3.isSelected()) 
-		            	
-		            	Program.setSelectedComboBox(3, Program.getActualQuestion());
+		            {	Program.setSelectedTextBox(opd3.getWord().getText(), Program.getActualQuestion());
+		            	Program.setSelectedComboBox(3, Program.getActualQuestion());   }
 		            if(radio4.isSelected()) 
-		            	
-		            	Program.setSelectedComboBox(4, Program.getActualQuestion());
+		            {	Program.setSelectedTextBox(opd4.getWord().getText(), Program.getActualQuestion());
+		            	Program.setSelectedComboBox(4, Program.getActualQuestion());    }
 					
 		            
-		            System.out.println(Program.getSelectedComboBox(Program.getActualQuestion())+"    "+Program.getActualQuestion());
+		            
+		            System.out.println(Program.getSelectedComboBox(Program.getActualQuestion())+"    "+Program.getActualQuestion()+" "+Program.getSelectedTextBox(Program.getActualQuestion()));
 				 
 				 if(Program.getActualQuestion()<10)
 				 Program.nextTestState();
