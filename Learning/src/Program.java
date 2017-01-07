@@ -49,6 +49,7 @@ public class Program extends JFrame {
 	private static List<String> correctAnswers = new ArrayList<String>();
 	private static List<String[]> incorrectAnswers = new ArrayList<String[]>();
 	private static int[] selectedComboBox = new int[10];
+	private static String[] selectedTextBox = new String[10];
 	private static int level;
 	private static int actualQuestion;
 	private Builder builder;
@@ -94,6 +95,20 @@ public class Program extends JFrame {
 	public static int getSelectedComboBox(int number){
 		
 		return selectedComboBox[number-1];
+	}
+	
+	
+	public static void setSelectedTextBox(String value, int number) {
+		
+		
+		Program.selectedTextBox[number-1]= value;
+		
+		
+	}
+	
+	public static String getSelectedTextBox(int number){
+		
+		return selectedTextBox[number-1];
 	}
 	
 	

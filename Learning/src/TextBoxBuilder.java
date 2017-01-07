@@ -54,6 +54,8 @@ public class TextBoxBuilder implements Builder{
 		   answerText = new JTextField();
 		  
 	       answerText.setText("");
+	       answerText.setText(Program.getSelectedTextBox(Program.getActualQuestion()));
+	       
 	       answerText.setBounds(20, 100, 20, 20);
 	       
 	       JLabel emptyTxT = new JLabel(" ");
@@ -168,11 +170,13 @@ public class TextBoxBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
+				 
+				    Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
 
                  if(Program.getActualQuestion()>1)
 				 Program.previousTestState();
 				 
-				 
+             
 					System.out.println("PREV");
 			 }				   	        		      	 
 			};	 		
@@ -191,10 +195,17 @@ public class TextBoxBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
+				 Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
+				 
+				 
 				 if(Program.getActualQuestion()<10)
 				 Program.nextTestState();
 				 else
 					 Program.setScorePanel();
+				 
+				 
+				 
+				 
 					 
 					System.out.println("NEXTTEST");
 			 }				   	        		      	 
