@@ -56,7 +56,7 @@ public class RadioPanelBuilder implements Builder {
 		panel.setLayout(new BorderLayout());
 
 		String question = new String("(Pytanie " + Program.getActualQuestion() + "/"
-				+ Program.getCorrectAnswers().size() + ") Przetłumacz na język angielski " + quest);
+				+ Program.getCorrectAnswers().size() + ") Przetłumacz:  " + quest);
 
 		JLabel gameLabel = new JLabel(question, JLabel.CENTER);
 		panel.add(gameLabel, BorderLayout.NORTH);

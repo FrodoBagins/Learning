@@ -43,7 +43,7 @@ public class TextBoxBuilder implements Builder{
 		panel.setLayout(laj);
 		
 		
-		String question = new String("(Pytanie "+Program.getActualQuestion()+"/"+Program.getCorrectAnswers().size()+") Przetłumacz na język angielski "+quest);
+		String question = new String("(Pytanie "+Program.getActualQuestion()+"/"+Program.getCorrectAnswers().size()+") Przetłumacz:   "+quest);
 			
 		gameLabel = new JLabel(question,JLabel.CENTER);
 		panel.add(gameLabel);
