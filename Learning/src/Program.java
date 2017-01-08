@@ -760,7 +760,7 @@ public class Program extends JFrame {
 	public static void setScorePanel(){
 		JPanel scorePanel = new JPanel();
 		scorePanel.setLayout(null);
-		JLabel scoreLabel = new JLabel("Zdobyłeś " + Program.getScore() +" punktów !");
+		JLabel scoreLabel = new JLabel("Zdobyłeś " + Program.getScore() +"/ "+correctAnswers.size()+" punktów !");
 		scoreLabel.setBounds(100, 150, 400, 50);
 		scoreLabel.setHorizontalAlignment(JLabel.CENTER);
 		scoreLabel.setVerticalAlignment(JLabel.CENTER);
