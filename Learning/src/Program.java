@@ -271,6 +271,9 @@ public class Program extends JFrame {
 				choosedQuestions.clear();
 				correctAnswers.clear();
 				incorrectAnswers.clear();
+				selectedComboBox = new int[10];
+				randomNumber = new int[10];
+				selectedTextBox = new String[10];
 				
 				program.makeQuestions(10);
 				program.makeWrongAnswers(10);
