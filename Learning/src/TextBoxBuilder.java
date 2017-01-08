@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -52,6 +54,21 @@ public class TextBoxBuilder implements Builder{
 	public void addAnswer(IWord answer) {
 		
 		   answerText = new JTextField();
+		   
+		   answerText.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		  
 	       answerText.setText("");
 	       answerText.setText(Program.getSelectedTextBox(Program.getActualQuestion()));
@@ -171,7 +188,7 @@ public class TextBoxBuilder implements Builder{
 			 public void actionPerformed(ActionEvent arg0) {			
 
 				 
-				    Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
+//				 Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
 
                  if(Program.getActualQuestion()>1)
 				 Program.previousTestState();
@@ -195,7 +212,7 @@ public class TextBoxBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-				 Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
+//				 Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
 				 
 				 
 				 if(Program.getActualQuestion()<10)
