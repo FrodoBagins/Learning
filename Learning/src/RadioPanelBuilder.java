@@ -97,9 +97,9 @@ public class RadioPanelBuilder implements Builder{
 
 		
 		if(Program.getSelectedRandom(Program.getActualQuestion())>0)
-			n=Program.getSelectedRandom(Program.getActualQuestion());
+			n=Program.getSelectedRandom(Program.getActualQuestion())-1;
 		else
-			Program.setSelectedRandom(n, Program.getActualQuestion());
+			Program.setSelectedRandom(n+1, Program.getActualQuestion());
 		
 		
 		switch (n) {
@@ -288,11 +288,7 @@ public class RadioPanelBuilder implements Builder{
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {		
 				 
-				    Program.setScore(Program.getScore()+1);
-				 
-				 System.out.println(Program.getScore());
-				    
-				 
+		 
 						 		 
 				//    if(Program.getActualQuestion()==Program.getQuestionNumber())
 				 //   {

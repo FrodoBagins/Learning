@@ -470,7 +470,17 @@ public class Program extends JFrame {
 	
 	public static int getScore() {
 		
-		return score;
+		int punkty=0;
+		
+		for(int i = 0;i<10;i++)
+		{
+			if(correctAnswers.get(i).equals(selectedTextBox[i])  )
+				punkty++;
+			
+		}
+		
+		
+		return punkty;
 	}
 	
 	public static void setScore(int scores) {
