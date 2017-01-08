@@ -40,8 +40,6 @@ public class Program extends JFrame {
 	private static Program program;
 	private static DefaultListModel<String> wordsList;
 	private static IDbOperations dbOperations = new DbAdapter();
-	private LinkedList<Command> undoHistory = new LinkedList<Command>();
-	private LinkedList<Command> redoHistory = new LinkedList<Command>();
 	private static State state;
 	private boolean englishPolish;
 	private static int score;
