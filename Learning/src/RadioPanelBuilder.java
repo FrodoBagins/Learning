@@ -381,7 +381,7 @@ public class RadioPanelBuilder implements Builder {
 							+ Program.getActualQuestion() + " "
 							+ Program.getSelectedTextBox(Program.getActualQuestion()));
 
-					if (Program.getActualQuestion() < 10)
+					if (Program.getActualQuestion() < Program.QUESTIONS_NUMBER)
 						Program.nextTestState();
 					else {
 						Program.setScorePanel();

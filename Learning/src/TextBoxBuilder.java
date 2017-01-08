@@ -206,7 +206,11 @@ public class TextBoxBuilder implements Builder{
 		if(button.equals("NEXTTEST"))
 		{	
 			nextButton = new JButton();
-			nextButton.setText("NEXTTEST");   	
+			nextButton.setText("NEXTTEST"); 
+			
+			if(Program.getActualQuestion() == Program.QUESTIONS_NUMBER){
+				nextButton.setEnabled(false);
+			}
 		
         ActionListener nextListener = new ActionListener(){			  
 			 @Override
@@ -215,7 +219,7 @@ public class TextBoxBuilder implements Builder{
 //				 Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
 				 
 				 
-				 if(Program.getActualQuestion()<10)
+				 if(Program.getActualQuestion()<Program.QUESTIONS_NUMBER)
 				 Program.nextTestState();
 				 else
 					 Program.setScorePanel();

@@ -35,6 +35,7 @@ import javax.swing.event.ListSelectionListener;
 
 public class Program extends JFrame {
 	private static final long serialVersionUID = 1L;
+	public static final int QUESTIONS_NUMBER = 3;
 //	private static JPanel mainPanel = new JPanel();
 	private static Program program;
 	private static DefaultListModel<String> wordsList;
@@ -48,9 +49,9 @@ public class Program extends JFrame {
 	private static List<String> choosedQuestions = new ArrayList<String>();
 	private static List<String> correctAnswers = new ArrayList<String>();
 	private static List<String[]> incorrectAnswers = new ArrayList<String[]>();
-	private static int[] selectedComboBox = new int[10];
-	private static int[] randomNumber = new int[10];
-	private static String[] selectedTextBox = new String[10];
+	private static int[] selectedComboBox = new int[QUESTIONS_NUMBER];
+	private static int[] randomNumber = new int[QUESTIONS_NUMBER];
+	private static String[] selectedTextBox = new String[QUESTIONS_NUMBER];
 	private static int level;
 	private static int actualQuestion;
 	private Builder builder;
@@ -275,9 +276,9 @@ public class Program extends JFrame {
 				randomNumber = new int[10];
 				selectedTextBox = new String[10];
 				
-				program.makeQuestions(10);
-				program.makeWrongAnswers(10);
-				program.setQuestionNumber(10);
+				program.makeQuestions(QUESTIONS_NUMBER);
+				program.makeWrongAnswers(4);
+				program.setQuestionNumber(QUESTIONS_NUMBER);
 				program.setScore(0);
 				program.showMeNow();
 				
@@ -475,7 +476,7 @@ public class Program extends JFrame {
 		
 		int punkty=0;
 		
-		for(int i = 0;i<10;i++)
+		for(int i = 0;i<QUESTIONS_NUMBER;i++)
 		{
 			if(correctAnswers.get(i).equals(selectedTextBox[i])  )
 				punkty++;
