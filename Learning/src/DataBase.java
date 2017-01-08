@@ -13,7 +13,6 @@ public class DataBase {
 	private static DataBase dataBase = new DataBase();
 	private int wordsCount = 0;
 	public static final String FILE_NAME = "words.txt";
-	private UiElementFactory factory = new UiElementFactory();
 
 	private DataBase() {
 		load();
