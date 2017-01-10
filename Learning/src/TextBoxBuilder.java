@@ -1,12 +1,11 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,53 +13,45 @@ import javax.swing.JTextField;
 
 public class TextBoxBuilder implements Builder{
 
-   private JTextField answerText;
-	
-	
-	private JPanel panel=new JPanel();
-	
-	private JLabel gameLabel;
-
+    private JTextField answerTextBox;	
+	private JLabel gameInfoLabel;
 	private JButton nextButton;
+	
+	private JPanel panelTextBox = new JPanel();
+	private JPanel panelButtons = new JPanel();
 
-	private JPanel panel2 = new JPanel();
-	
-	
+		
 	private String rightAnswer;
 	private String selectedAnswerString;
 
 	@Override
-	public void addQuestion(String quest) {
+	public void addQuestion(String newQuestion) {
 		
+		GridLayout layoutTextBox = new GridLayout(3,0);
 		
-		GridLayout laj = new GridLayout(3,0);
+		layoutTextBox.setHgap(100);
+		layoutTextBox.setVgap(50);
 		
-		laj.setHgap(100);
-		laj.setVgap(50);
+		panelTextBox.setBounds(80, 20, 400, 300);
+		panelTextBox.setLayout(layoutTextBox);
 		
-		
-		panel.setBounds(80, 20, 400, 300);
-		panel.setLayout(laj);
-		
-		
-		String question = new String("(Pytanie "+Program.getActualQuestion()+"/"+Program.getCorrectAnswers().size()+") Przetłumacz:   "+quest);
+		String question = new String("(Pytanie "+Program.getActualQuestion()+"/"+Program.getCorrectAnswers().size()+") Przetłumacz:   "+ newQuestion);
 			
-		gameLabel = new JLabel(question,JLabel.CENTER);
-		panel.add(gameLabel);
+		gameInfoLabel = new JLabel(question,JLabel.CENTER);
+		panelTextBox.add(gameInfoLabel);
 				
 	}
 
 	@Override
 	public void addAnswer(IWord answer) {
 		
-		   answerText = new JTextField();
+		   answerTextBox = new JTextField();
 		   
-		   answerText.addFocusListener(new FocusListener() {
+		   answerTextBox.addFocusListener(new FocusListener() {
 			
 			@Override
 			public void focusLost(FocusEvent e) {
-				Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
-				
+				Program.setAnswerText(answerTextBox.getText(), Program.getActualQuestion());	
 			}
 			
 			@Override
@@ -70,29 +61,28 @@ public class TextBoxBuilder implements Builder{
 			}
 		});
 		  
-	       answerText.setText("");
-	       answerText.setText(Program.getSelectedTextBox(Program.getActualQuestion()));
+	       answerTextBox.setText("");
+	       answerTextBox.setText(Program.getAnswerText(Program.getActualQuestion()));
 	       
-	       answerText.setBounds(20, 100, 20, 20);
-	       
-	       JLabel emptyTxT = new JLabel(" ");
-	       JLabel emptyTxT2 = new JLabel(" ");
+
 		     
-		JPanel panel3 = new JPanel();
-	    GridLayout layout3 = new GridLayout(0, 3);
-		panel3.setLayout(layout3);
+	   	JPanel answerPanel = new JPanel();
+	    GridLayout answerLayout = new GridLayout(0, 3);
+	    answerPanel.setLayout(answerLayout);
 	       
 	       rightAnswer = answer.getWord().getText();
 	    
-	       panel3.add(emptyTxT);
-	       panel3.add(answerText);
-	       panel3.add(emptyTxT2);
+
+	       answerPanel.add(answerTextBox);
+
 	       
-	     panel.add(panel3);
+	       answerPanel.setBorder(BorderFactory.createEmptyBorder(0, 200, 0, 0));
+     
+	       panelTextBox.add(answerPanel);
 	     
-			JPanel panel2 = new JPanel();
-			GridLayout layout2 = new GridLayout(3, 3);
-			panel2.setLayout(layout2);
+			JPanel panelButtons = new JPanel();
+			GridLayout layoutButtons = new GridLayout(3, 3);
+			panelButtons.setLayout(layoutButtons);
 	        
 	}
 
@@ -102,18 +92,17 @@ public class TextBoxBuilder implements Builder{
 		if(button.equals("EXIT"))
 		{	
 			JButton exitButton = new JButton();
-			exitButton.setText("EXIT");   	
-        ActionListener exitListener = new ActionListener(){			  
+			exitButton.setText("Menu główne");   	
+             ActionListener exitListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
-					System.out.println("EXIT");
-					
 					Program.showMainPanel();
+					
 	          }	
 		};	 		
 			
 		exitButton.addActionListener(exitListener);		
-		panel2.add(exitButton);
+		panelButtons.add(exitButton);
 		
 		}
 		
@@ -122,30 +111,30 @@ public class TextBoxBuilder implements Builder{
 		{			
 			JButton checkButton = new JButton();
 			
-			checkButton.setText("CHECK");   	
+			checkButton.setText("Sprawdź");   	
 		
         ActionListener checkListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-				 selectedAnswerString=answerText.getText();
+				 selectedAnswerString=answerTextBox.getText();
 	 
 				 if(selectedAnswerString.equals(rightAnswer))
 				 {			 
-					 answerText.setEnabled(false);
-					 answerText.setBackground(Color.GREEN);
-					 answerText.setDisabledTextColor(Color.WHITE);
+					 answerTextBox.setEnabled(false);
+					 answerTextBox.setBackground(Color.GREEN);
+					 answerTextBox.setDisabledTextColor(Color.WHITE);
 					 nextButton.setEnabled(true);			 					 
 				 }		 			 
 				 else{
 					 
-					 answerText.setBackground(Color.RED);		 
+					 answerTextBox.setBackground(Color.RED);		 
 				 }				 
-					System.out.println("CHECK"+rightAnswer);										
+									
 			 }				   	        		      	 
 			};	 					
 			checkButton.addActionListener(checkListener);		
-			panel2.add(checkButton);
+			panelButtons.add(checkButton);
 		}
 		
 		
@@ -154,7 +143,7 @@ public class TextBoxBuilder implements Builder{
 		if(button.equals("NEXT"))
 		{	
 			nextButton = new JButton();
-			nextButton.setText("NEXT");   	
+			nextButton.setText("Dalej");   	
 		
         ActionListener nextListener = new ActionListener(){			  
 			 @Override
@@ -163,15 +152,14 @@ public class TextBoxBuilder implements Builder{
 				    if(Program.getActualQuestion()==Program.getQuestionNumber())
 				    	Program.showMainPanel();
 				    else
-				        Program.nextLearnState();	 
+				        Program.nextLearnStateQuestion();	 
 				 
-					System.out.println("NEXT");
 			 }				   	        		      	 
 			};	 		
 			
 			nextButton.addActionListener(nextListener);	
 			nextButton.setEnabled(false);
-			panel2.add(nextButton);
+			panelButtons.add(nextButton);
 		}
 		
 		
@@ -179,34 +167,28 @@ public class TextBoxBuilder implements Builder{
 		
 		if(button.equals("PREV"))
 		{	
-			JButton prevButton = new JButton();
-			
-			prevButton.setText("PREV");   	
+			JButton prevButton = new JButton();	
+			prevButton.setText("Poprzednie pytanie");   	
 		
         ActionListener prevListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
 
-				 
-//				 Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
-
                  if(Program.getActualQuestion()>1)
-				 Program.previousTestState();
+				 Program.previousTestStateQuestion();
 				 
-             
-					System.out.println("PREV");
 			 }				   	        		      	 
 			};	 		
 			
 			prevButton.addActionListener(prevListener);		
-			panel2.add(prevButton);
+			panelButtons.add(prevButton);
 		}
 		
 		
 		if(button.equals("NEXTTEST"))
 		{	
 			nextButton = new JButton();
-			nextButton.setText("NEXTTEST"); 
+			nextButton.setText("Następne pytanie"); 
 			
 			if(Program.getActualQuestion() == Program.QUESTIONS_NUMBER){
 				nextButton.setEnabled(false);
@@ -215,25 +197,17 @@ public class TextBoxBuilder implements Builder{
         ActionListener nextListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
-
-//				 Program.setSelectedTextBox(answerText.getText(), Program.getActualQuestion());
-				 
-				 
+			 
 				 if(Program.getActualQuestion()<Program.QUESTIONS_NUMBER)
-				 Program.nextTestState();
+				 Program.nextTestStateQuestion();
 				 else
 					 Program.setScorePanel();
-				 
-				 
-				 
-				 
-					 
-					System.out.println("NEXTTEST");
+				  	 		
 			 }				   	        		      	 
 			};	 		
 			
 			nextButton.addActionListener(nextListener);	
-			panel2.add(nextButton);
+			panelButtons.add(nextButton);
 		}
 		
 		
@@ -241,34 +215,29 @@ public class TextBoxBuilder implements Builder{
 		{	
 			JButton prevButton = new JButton();
 			
-			prevButton.setText("SCORE");   	
+			prevButton.setText("Wynik");   	
 		
         ActionListener prevListener = new ActionListener(){			  
 			 @Override
 			 public void actionPerformed(ActionEvent arg0) {			
-
+				 
 				 Program.setScorePanel();
-					System.out.println("SCORE");
+				 
 			 }				   	        		      	 
 			};	 		
 			
 			prevButton.addActionListener(prevListener);		
-			panel2.add(prevButton);
+			panelButtons.add(prevButton);
 		}
 		
 		
-		
-		
-		
-		panel.add(panel2);
+		panelTextBox.add(panelButtons);
 		
 	}
 	
 	public JPanel getPanel(){
-		
-		
-		return this.panel;
+			
+		return this.panelTextBox;
 	}
 	
-
 }

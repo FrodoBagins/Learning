@@ -18,7 +18,6 @@ public abstract class WordDecorator implements IWord{
 	}
 	
 	
-	
 	public JLabel getWord(){
 
 		return decoratedWord.getWord();	

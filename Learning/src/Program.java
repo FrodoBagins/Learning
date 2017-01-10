@@ -6,16 +6,16 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,7 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -36,25 +35,29 @@ import javax.swing.event.ListSelectionListener;
 public class Program extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public static final int QUESTIONS_NUMBER = 3;
+	
 //	private static JPanel mainPanel = new JPanel();
+	
 	private static Program program;
 	private static DefaultListModel<String> wordsList;
 	private static IDbOperations dbOperations = new DbAdapter();
 	private static State state;
+	
 	private boolean englishPolish;
-	private static int score;
+	
+	
 	private static int questionNumber;
+	private static int actualQuestion;
+	private static int level;
+	
 	private static List<String> choosedQuestions = new ArrayList<String>();
 	private static List<String> correctAnswers = new ArrayList<String>();
 	private static List<String[]> incorrectAnswers = new ArrayList<String[]>();
-	private static int[] selectedComboBox = new int[QUESTIONS_NUMBER];
+	
+	private static String[] answerFromText = new String[QUESTIONS_NUMBER];
+	private static int[] answerFromRadioButton = new int[QUESTIONS_NUMBER];
 	private static int[] randomNumber = new int[QUESTIONS_NUMBER];
-	private static String[] selectedTextBox = new String[QUESTIONS_NUMBER];
-	private static int level;
-	private static int actualQuestion;
-	private Builder builder;
-//	private JButton startButton;
-//	private JButton exitButton;
+	
 	private static JComboBox<String> directionComboBox;
 	private static JComboBox<String> modeComboBox;
 	private static JComboBox<String> levelComboBox;
@@ -67,66 +70,55 @@ public class Program extends JFrame {
 		getContentPane().setBackground(Color.white);
 		setResizable(false);
 		setVisible(true);
-		setBounds(200, 200, getWidth(), getHeight());
-		
+		setBounds(200, 200, getWidth(), getHeight());		
 		setContentPane(Program.setMainPanel());
 
 	}
 	
 	public static void showMainPanel(){
 		
-		System.out.println("DUPA");
 		program.getContentPane().removeAll();
 		program.getContentPane().setBackground(Color.white);
 		program.setContentPane(Program.setMainPanel());
-		program.revalidate();
+		program.invalidate();
+		program.validate();
 		program.repaint();
-	}
-	
-	public static void setSelectedComboBox(int value, int number) {
-		
-		
-		Program.selectedComboBox[number-1]= value;
-		
 		
 	}
 	
-	
-	public static int getSelectedComboBox(int number){
+	public static void setAnswerRadioButton(int value, int number) {
 		
-		return selectedComboBox[number-1];
+		Program.answerFromRadioButton[number-1]= value;
+		
 	}
 	
+	public static int getAnswerRadioButton(int number){
+		
+		return answerFromRadioButton[number-1];
+	}
 	
 	public static void setSelectedRandom(int value, int number) {
 		
-		
 		Program.randomNumber[number-1]= value;
-		
-		
 	}
-	
 	
 	public static int getSelectedRandom(int number){
 		
 		return randomNumber[number-1];
 	}
 	
-	public static void setSelectedTextBox(String value, int number) {
-		
-		
-		Program.selectedTextBox[number-1]= value;
-		
+	public static void setAnswerText(String value, int number) {
+				
+		Program.answerFromText[number-1]= value;
 		
 	}
 	
-	public static String getSelectedTextBox(int number){
+	public static String getAnswerText(int number){
 		
-		return selectedTextBox[number-1];
+		return answerFromText[number-1];
 	}
 	
-	
-	public static void nextLearnState() {
+	public static void nextLearnStateQuestion() {
 		
 		program.setActualQuestion(Program.getActualQuestion()+1);
 		
@@ -147,8 +139,7 @@ public class Program extends JFrame {
 			
 	}
 	
-	
-	public static void nextTestState() {
+	public static void nextTestStateQuestion() {
 		
 		program.setActualQuestion(Program.getActualQuestion()+1);
 		
@@ -169,8 +160,7 @@ public class Program extends JFrame {
 			
 	}
 	
-	
-	public static void previousTestState() {
+	public static void previousTestStateQuestion() {
 		
 		program.setActualQuestion(Program.getActualQuestion()-1);
 		
@@ -270,14 +260,14 @@ public class Program extends JFrame {
 				choosedQuestions.clear();
 				correctAnswers.clear();
 				incorrectAnswers.clear();
-				selectedComboBox = new int[10];
+				answerFromRadioButton = new int[10];
 				randomNumber = new int[10];
-				selectedTextBox = new String[10];
+				answerFromText = new String[10];
 				
 				program.makeQuestions(QUESTIONS_NUMBER);
 				program.makeWrongAnswers(4);
 				program.setQuestionNumber(QUESTIONS_NUMBER);
-				program.setScore(0);
+		//		program.setScore(0);
 				program.showMeNow();
 				
 			//	Program.selectedComboBox = new int[10]
@@ -476,7 +466,7 @@ public class Program extends JFrame {
 		
 		for(int i = 0;i<QUESTIONS_NUMBER;i++)
 		{
-			if(correctAnswers.get(i).equals(selectedTextBox[i])  )
+			if(correctAnswers.get(i).equals(answerFromText[i])  )
 				punkty++;
 			
 		}
@@ -485,10 +475,7 @@ public class Program extends JFrame {
 		return punkty;
 	}
 	
-	public static void setScore(int scores) {
-		
-		Program.score = scores;
-	}
+
 	
 	public static int getActualQuestion() {
 
@@ -496,9 +483,9 @@ public class Program extends JFrame {
 
 	}
 
-	public void setActualQuestion(int level) {
+	public void setActualQuestion(int actualQuestion) {
 
-		Program.actualQuestion = level;
+		Program.actualQuestion = actualQuestion;
 
 	}
 	
@@ -508,9 +495,9 @@ public class Program extends JFrame {
 
 	}
 
-	public void setQuestionNumber(int level) {
+	public void setQuestionNumber(int number) {
 
-		Program.questionNumber = level;
+		Program.questionNumber = number;
 
 	}
 
@@ -534,8 +521,6 @@ public class Program extends JFrame {
 		JLabel addWordLabel = new JLabel("Dodaj nowe słowo:");
 		JLabel addPolishWordLabel = new JLabel("Polskie słowo: ");
 		JLabel addEnglishWordLabel = new JLabel("Angielskie słowo: ");
-		JLabel editWordLabel = new JLabel("Edytuj słowo");
-		JLabel deleteWordLabel = new JLabel("Usuń słowo");
 
 		// buttons
 		JButton addWordButton = new JButton("Dodaj słowo");
@@ -779,7 +764,7 @@ public class Program extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				program.setContentPane(setMainPanel());
+				program.setContentPane(Program.setMainPanel());
 				program.revalidate();
 				program.repaint();
 				

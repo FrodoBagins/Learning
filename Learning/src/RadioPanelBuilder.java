@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -17,38 +17,24 @@ public class RadioPanelBuilder implements Builder {
 
 	private JPanel panel = new JPanel();
 
-	// static JButton exitButton = new JButton();
-	// static JButton checkButton = new JButton();
-	// static JButton nextButton = new JButton();
-	// static JButton prevButton = new JButton();
-
-	private static IWord iiword;
-
 	private JButton nextButton;
 
-	private IWord opd1;
-	private IWord opd2;
-	private IWord opd3;
-	private IWord opd4;
+	private IWord answer1;
+	private IWord answer2;
+	private IWord answer3;
+	private IWord answer4;
 
 	private int selectedAnswerNumber;
-	private int numberOfQuestions;
 	private String rightAnswer;
 
-	private JPanel panel2 = new JPanel();
+	private JPanel buttonPanel = new JPanel();
 	private JRadioButton radio1 = new JRadioButton();
 	private JRadioButton radio2 = new JRadioButton();
 	private JRadioButton radio3 = new JRadioButton();
 	private JRadioButton radio4 = new JRadioButton();
 
-	private JLabel checkone = new JLabel("1");
-	private JLabel checktwo = new JLabel("2");
-	private JLabel checkthree = new JLabel("3");
-	private JLabel checkfour = new JLabel("4");
+	private List<String[]> wrongAnswers;
 
-	private List<String[]> zleodpowiedzi;
-
-	private IWord selectedAnswer;
 	private ButtonGroup group;
 
 	@Override
@@ -68,22 +54,18 @@ public class RadioPanelBuilder implements Builder {
 
 		rightAnswer = answer.getWord().getText();
 
-		zleodpowiedzi = Program.getIncorrectAnswers();
+		wrongAnswers = Program.getIncorrectAnswers();
 
-		String[] zlo = zleodpowiedzi.get(Program.getActualQuestion() - 1);
+		String[] wrongAnswer = wrongAnswers.get(Program.getActualQuestion() - 1);
 
-		checkone = new JLabel(zlo[0]);
-		checktwo = new JLabel(zlo[1]);
-		checkthree = new JLabel(zlo[2]);
-		checkfour = new JLabel(zlo[3]);
 
 		Random rand = new Random();
 		int n = 0;
 
-		opd1 = new WordDecoratorRed(new Word(zlo[0]));
-		opd2 = new WordDecoratorRed(new Word(zlo[1]));
-		opd3 = new WordDecoratorRed(new Word(zlo[2]));
-		opd4 = new WordDecoratorRed(new Word(zlo[3]));
+		answer1 = new WordDecoratorRed(new Word(wrongAnswer[0]));
+		answer2 = new WordDecoratorRed(new Word(wrongAnswer[1]));
+		answer3 = new WordDecoratorRed(new Word(wrongAnswer[2]));
+		answer4 = new WordDecoratorRed(new Word(wrongAnswer[3]));
 
 		if (Program.getLevel() == 2) {
 			n = rand.nextInt(4);
@@ -101,19 +83,19 @@ public class RadioPanelBuilder implements Builder {
 		switch (n) {
 
 		case 0:
-			opd1 = new WordDecoratorGreen(new Word(answer.getWord().getText()));
+			answer1 = new WordDecoratorGreen(new Word(answer.getWord().getText()));
 			break;
 
 		case 1:
-			opd2 = new WordDecoratorGreen(new Word(answer.getWord().getText()));
+			answer2 = new WordDecoratorGreen(new Word(answer.getWord().getText()));
 			break;
 
 		case 2:
-			opd3 = new WordDecoratorGreen(new Word(answer.getWord().getText()));
+			answer3 = new WordDecoratorGreen(new Word(answer.getWord().getText()));
 			break;
 
 		case 3:
-			opd4 = new WordDecoratorGreen(new Word(answer.getWord().getText()));
+			answer4 = new WordDecoratorGreen(new Word(answer.getWord().getText()));
 			;
 			break;
 
@@ -122,46 +104,59 @@ public class RadioPanelBuilder implements Builder {
 		group = new ButtonGroup();
 
 		JPanel controlPanel = new JPanel();
+		
 		controlPanel.setLayout(new GridLayout(2, 1));
-
-		// controlPanel.setLayout(new GridLayout(4, 1));
 		controlPanel.setPreferredSize(new Dimension(50, 50));
 
-		JPanel panel2 = new JPanel();
+		JPanel buttonPanel = new JPanel();
 		GridLayout layout2 = new GridLayout(3, 3);
-		panel2.setLayout(layout2);
+		buttonPanel.setLayout(layout2);
 
 		group.add(radio1);
 		group.add(radio2);
+		
+		answer1.getWord().setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
+		answer2.getWord().setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		radio1.setBorder(BorderFactory.createEmptyBorder(50, 250, 0, 0));
+		radio2.setBorder(BorderFactory.createEmptyBorder(0, 250, 0, 0));
 
 		controlPanel.add(radio1);
-		controlPanel.add(opd1.getWord());
+		controlPanel.add(answer1.getWord());
 		controlPanel.add(radio2);
-		controlPanel.add(opd2.getWord());
+		controlPanel.add(answer2.getWord());
 
 		if (Program.getLevel() == 2) {
+			
+			answer3.getWord().setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
+			answer4.getWord().setBorder(BorderFactory.createEmptyBorder(0, 0, 50, 0));
+			
+			radio3.setBorder(BorderFactory.createEmptyBorder(0, 250, 50, 0));
+			radio4.setBorder(BorderFactory.createEmptyBorder(0, 250, 50, 0));
 
 			group.add(radio3);
 			group.add(radio4);
 			controlPanel.setLayout(new GridLayout(4, 1));
 			controlPanel.add(radio3);
-			controlPanel.add(opd3.getWord());
+			controlPanel.add(answer3.getWord());
 			controlPanel.add(radio4);
-			controlPanel.add(opd4.getWord());
+			controlPanel.add(answer4.getWord());
 
 		}
 		
 		
 
-		if (Program.getSelectedComboBox(Program.getActualQuestion()) == 1)
+		if (Program.getAnswerRadioButton(Program.getActualQuestion()) == 1)
 			radio1.setSelected(true);
-		if (Program.getSelectedComboBox(Program.getActualQuestion()) == 2)
+		if (Program.getAnswerRadioButton(Program.getActualQuestion()) == 2)
 			radio2.setSelected(true);
-		if (Program.getSelectedComboBox(Program.getActualQuestion()) == 3)
+		if (Program.getAnswerRadioButton(Program.getActualQuestion()) == 3)
 			radio3.setSelected(true);
-		if (Program.getSelectedComboBox(Program.getActualQuestion()) == 4)
+		if (Program.getAnswerRadioButton(Program.getActualQuestion()) == 4)
 			radio4.setSelected(true);
 
+		
+		controlPanel.setSize(100, 100);
+		
 		panel.add(controlPanel, BorderLayout.CENTER);
 
 	}
@@ -169,7 +164,7 @@ public class RadioPanelBuilder implements Builder {
 	@Override
 	public void addButton(String button) {
 
-		// panel2 = new JPanel();
+		// buttonPanel = new JPanel();
 
 		if (button.equals("EXIT")) {
 
@@ -187,7 +182,7 @@ public class RadioPanelBuilder implements Builder {
 			};
 
 			exitButton.addActionListener(exitListener);
-			panel2.add(exitButton);
+			buttonPanel.add(exitButton);
 
 		}
 
@@ -213,8 +208,8 @@ public class RadioPanelBuilder implements Builder {
 					switch (selectedAnswerNumber) {
 
 					case 1:
-						opd1.decorate(opd1.getWord());
-						if (opd1.getWord().getText() == rightAnswer) {
+						answer1.decorate(answer1.getWord());
+						if (answer1.getWord().getText() == rightAnswer) {
 							radio1.setEnabled(false);
 							radio2.setEnabled(false);
 							radio3.setEnabled(false);
@@ -225,8 +220,8 @@ public class RadioPanelBuilder implements Builder {
 						break;
 
 					case 2:
-						opd2.decorate(opd2.getWord());
-						if (opd2.getWord().getText() == rightAnswer) {
+						answer2.decorate(answer2.getWord());
+						if (answer2.getWord().getText() == rightAnswer) {
 							radio1.setEnabled(false);
 							radio2.setEnabled(false);
 							radio3.setEnabled(false);
@@ -236,8 +231,8 @@ public class RadioPanelBuilder implements Builder {
 						break;
 
 					case 3:
-						opd3.decorate(opd3.getWord());
-						if (opd3.getWord().getText() == rightAnswer) {
+						answer3.decorate(answer3.getWord());
+						if (answer3.getWord().getText() == rightAnswer) {
 							radio1.setEnabled(false);
 							radio2.setEnabled(false);
 							radio3.setEnabled(false);
@@ -247,8 +242,8 @@ public class RadioPanelBuilder implements Builder {
 
 						break;
 					case 4:
-						opd4.decorate(opd4.getWord());
-						if (opd4.getWord().getText() == rightAnswer) {
+						answer4.decorate(answer4.getWord());
+						if (answer4.getWord().getText() == rightAnswer) {
 							radio1.setEnabled(false);
 							radio2.setEnabled(false);
 							radio3.setEnabled(false);
@@ -270,7 +265,7 @@ public class RadioPanelBuilder implements Builder {
 			};
 
 			checkButton.addActionListener(checkListener);
-			panel2.add(checkButton);
+			buttonPanel.add(checkButton);
 		}
 
 		if (button.equals("NEXT")) {
@@ -290,7 +285,7 @@ public class RadioPanelBuilder implements Builder {
 					// if(Program.getActualQuestion()==Program.getQuestionNumber())
 					// Program.showMainPanel();
 
-					Program.nextLearnState();
+					Program.nextLearnStateQuestion();
 
 					System.out.println("NEXT");
 				}
@@ -298,15 +293,15 @@ public class RadioPanelBuilder implements Builder {
 
 			nextButton.setEnabled(false);
 			nextButton.addActionListener(nextListener);
-			panel2.add(nextButton);
+			buttonPanel.add(nextButton);
 		}
 
 		radio1.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Program.setSelectedTextBox(opd1.getWord().getText(), Program.getActualQuestion());
-				Program.setSelectedComboBox(1, Program.getActualQuestion());
+				Program.setAnswerText(answer1.getWord().getText(), Program.getActualQuestion());
+				Program.setAnswerRadioButton(1, Program.getActualQuestion());
 				
 			}
 		});
@@ -315,8 +310,8 @@ public class RadioPanelBuilder implements Builder {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Program.setSelectedTextBox(opd2.getWord().getText(), Program.getActualQuestion());
-				Program.setSelectedComboBox(2, Program.getActualQuestion());
+				Program.setAnswerText(answer2.getWord().getText(), Program.getActualQuestion());
+				Program.setAnswerRadioButton(2, Program.getActualQuestion());
 				
 			}
 		});
@@ -325,8 +320,8 @@ public class RadioPanelBuilder implements Builder {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Program.setSelectedTextBox(opd3.getWord().getText(), Program.getActualQuestion());
-				Program.setSelectedComboBox(3, Program.getActualQuestion());
+				Program.setAnswerText(answer3.getWord().getText(), Program.getActualQuestion());
+				Program.setAnswerRadioButton(3, Program.getActualQuestion());
 				
 			}
 		});
@@ -335,8 +330,8 @@ public class RadioPanelBuilder implements Builder {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Program.setSelectedTextBox(opd4.getWord().getText(), Program.getActualQuestion());
-				Program.setSelectedComboBox(4, Program.getActualQuestion());
+				Program.setAnswerText(answer4.getWord().getText(), Program.getActualQuestion());
+				Program.setAnswerRadioButton(4, Program.getActualQuestion());
 				
 			}
 		});
@@ -349,19 +344,19 @@ public class RadioPanelBuilder implements Builder {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 
-					System.out.println(Program.getSelectedComboBox(Program.getActualQuestion()) + "    "
+					System.out.println(Program.getAnswerRadioButton(Program.getActualQuestion()) + "    "
 							+ Program.getActualQuestion() + " "
-							+ Program.getSelectedTextBox(Program.getActualQuestion()));
+							+ Program.getAnswerText(Program.getActualQuestion()));
 
 					if (Program.getActualQuestion() > 1)
-						Program.previousTestState();
+						Program.previousTestStateQuestion();
 
 					System.out.println("PREV");
 				}
 			};
 
 			prevButton.addActionListener(prevListener);
-			panel2.add(prevButton);
+			buttonPanel.add(prevButton);
 		}
 
 		if (button.equals("NEXTTEST")) {
@@ -377,12 +372,12 @@ public class RadioPanelBuilder implements Builder {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 
-					System.out.println(Program.getSelectedComboBox(Program.getActualQuestion()) + "    "
+					System.out.println(Program.getAnswerRadioButton(Program.getActualQuestion()) + "    "
 							+ Program.getActualQuestion() + " "
-							+ Program.getSelectedTextBox(Program.getActualQuestion()));
+							+ Program.getAnswerText(Program.getActualQuestion()));
 
 					if (Program.getActualQuestion() < Program.QUESTIONS_NUMBER)
-						Program.nextTestState();
+						Program.nextTestStateQuestion();
 					else {
 						Program.setScorePanel();
 					}
@@ -392,7 +387,7 @@ public class RadioPanelBuilder implements Builder {
 			};
 
 			nextButton.addActionListener(nextListener);
-			panel2.add(nextButton);
+			buttonPanel.add(nextButton);
 		}
 
 		if (button.equals("SCORE")) {
@@ -411,10 +406,10 @@ public class RadioPanelBuilder implements Builder {
 			};
 
 			prevButton.addActionListener(prevListener);
-			panel2.add(prevButton);
+			buttonPanel.add(prevButton);
 		}
 
-		panel.add(panel2, BorderLayout.SOUTH);
+		panel.add(buttonPanel, BorderLayout.SOUTH);
 
 	}
 
