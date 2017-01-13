@@ -508,25 +508,29 @@ public class Program extends JFrame {
 		JPanel editWordPanel = new JPanel();
 		JPanel deleteWordPanel = new JPanel();
 
+		//factory
+		IComponentFactory componentFactory = new ComponentFactory();
+		
+		
 		// textfields
-		JTextField addPolishWordText = new JTextField();
-		JTextField addEnglishWordText = new JTextField();
-		JTextField editPolishWordText = new JTextField();
-		JTextField editEnglishWordText = new JTextField();
-		JTextField deletePolishWordText = new JTextField();
-		JTextField deleteEnglishWordText = new JTextField();
+		IComponent addPolishWordText = componentFactory.createComponent("textfield", "");
+		IComponent addEnglishWordText = componentFactory.createComponent("textfield", "");
+		IComponent editPolishWordText = componentFactory.createComponent("textfield", "");
+		IComponent editEnglishWordText = componentFactory.createComponent("textfield", "");
+		IComponent deletePolishWordText = componentFactory.createComponent("textfield", "");
+		IComponent deleteEnglishWordText = componentFactory.createComponent("textfield", "");
 
 		// labels
-		JLabel crudLabel = new JLabel("Zarządzenie bazą słówek");
-		JLabel addWordLabel = new JLabel("Dodaj nowe słowo:");
-		JLabel addPolishWordLabel = new JLabel("Polskie słowo: ");
-		JLabel addEnglishWordLabel = new JLabel("Angielskie słowo: ");
+		IComponent crudLabel = componentFactory.createComponent("label","Zarządzenie bazą słówek");
+		IComponent addWordLabel = componentFactory.createComponent("label","Dodaj nowe słowo:");
+		IComponent addPolishWordLabel = componentFactory.createComponent("label","Polskie słowo: ");
+		IComponent addEnglishWordLabel = componentFactory.createComponent("label","Angielskie słowo: ");
 
 		// buttons
-		JButton addWordButton = new JButton("Dodaj słowo");
-		JButton editWordButton = new JButton("Edytuj słowo");
-		JButton deleteWordButton = new JButton("Usuń słowo");
-		JButton backToMainButton = new JButton("Panel główny");
+		IComponent addWordButton = componentFactory.createComponent("button","Dodaj słowo");
+		IComponent editWordButton = componentFactory.createComponent("button","Edytuj słowo");
+		IComponent deleteWordButton = componentFactory.createComponent("button","Usuń słowo");
+		IComponent backToMainButton = componentFactory.createComponent("button","Panel główny");
 
 		// fonts
 		Font addTextFieldsFont = new Font("Cambria", 0, 24);
@@ -614,33 +618,33 @@ public class Program extends JFrame {
 		addEnglishWordText.setFont(addTextFieldsFont);
 
 		// set to panels
-		addWordPanel.add(addWordLabel);
+		addWordPanel.add(addWordLabel.getComponent());
 		addWordPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-		addWordPanel.add(addPolishWordLabel);
+		addWordPanel.add(addPolishWordLabel.getComponent());
 		addWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		addWordPanel.add(addPolishWordText);
+		addWordPanel.add(addPolishWordText.getComponent());
 		addWordPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-		addWordPanel.add(addEnglishWordLabel);
+		addWordPanel.add(addEnglishWordLabel.getComponent());
 		addWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		addWordPanel.add(addEnglishWordText);
+		addWordPanel.add(addEnglishWordText.getComponent());
 		addWordPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-		addWordPanel.add(addWordButton);
+		addWordPanel.add(addWordButton.getComponent());
 
 		editWordPanel.add(scrollEditList);
 		editWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		editWordPanel.add(editPolishWordText);
+		editWordPanel.add(editPolishWordText.getComponent());
 		editWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		editWordPanel.add(editEnglishWordText);
+		editWordPanel.add(editEnglishWordText.getComponent());
 		editWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		editWordPanel.add(editWordButton);
+		editWordPanel.add(editWordButton.getComponent());
 
 		deleteWordPanel.add(scrollDeleteList);
 		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		deleteWordPanel.add(deletePolishWordText);
+		deleteWordPanel.add(deletePolishWordText.getComponent());
 		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		deleteWordPanel.add(deleteEnglishWordText);
+		deleteWordPanel.add(deleteEnglishWordText.getComponent());
 		deleteWordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		deleteWordPanel.add(deleteWordButton);
+		deleteWordPanel.add(deleteWordButton.getComponent());
 
 		// action listeners
 		addWordButton.addActionListener(new ActionListener() {
@@ -733,8 +737,8 @@ public class Program extends JFrame {
 			}
 		});
 
-		crudPanel.add(crudLabel);
-		crudPanel.add(backToMainButton);
+		crudPanel.add(crudLabel.getComponent());
+		crudPanel.add(backToMainButton.getComponent());
 		crudPanel.add(addWordPanel);
 		crudPanel.add(horizontalSeparator);
 		crudPanel.add(editWordPanel);
