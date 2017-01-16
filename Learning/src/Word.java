@@ -13,7 +13,7 @@ public class Word implements IWord {
 	
 
 	@Override
-	public void decorate(JLabel label) {
+	public void paint(JLabel label) {
 		
 		this.label = label;
 		

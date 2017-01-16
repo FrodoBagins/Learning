@@ -12,8 +12,8 @@ public abstract class WordDecorator implements IWord{
 		
 	}
 	
-	public void decorate(JLabel word){
-		this.decoratedWord.decorate(word);
+	public void paint(JLabel word){
+		this.decoratedWord.paint(word);
 		
 	}
 	

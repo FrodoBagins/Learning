@@ -11,9 +11,9 @@ public class WordDecoratorRed extends WordDecorator{
 
 
 	@Override
-	public void decorate(JLabel label) {
+	public void paint(JLabel label) {
 		label.setForeground(Color.RED);
-		super.decorate(label);
+		super.paint(label);
 	}
 
 	@Override

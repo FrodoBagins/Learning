@@ -215,7 +215,7 @@ public class RadioPanelBuilder implements Builder {
 					switch (selectedAnswerNumber) {
 
 					case 1:
-						answer1.decorate(answer1.getWord());
+						answer1.paint(answer1.getWord());
 						if (answer1.getWord().getText() == rightAnswer) {
 							radio1.setEnabled(false);
 							radio2.setEnabled(false);
@@ -227,7 +227,7 @@ public class RadioPanelBuilder implements Builder {
 						break;
 
 					case 2:
-						answer2.decorate(answer2.getWord());
+						answer2.paint(answer2.getWord());
 						if (answer2.getWord().getText() == rightAnswer) {
 							radio1.setEnabled(false);
 							radio2.setEnabled(false);
@@ -238,7 +238,7 @@ public class RadioPanelBuilder implements Builder {
 						break;
 
 					case 3:
-						answer3.decorate(answer3.getWord());
+						answer3.paint(answer3.getWord());
 						if (answer3.getWord().getText() == rightAnswer) {
 							radio1.setEnabled(false);
 							radio2.setEnabled(false);
@@ -249,7 +249,7 @@ public class RadioPanelBuilder implements Builder {
 
 						break;
 					case 4:
-						answer4.decorate(answer4.getWord());
+						answer4.paint(answer4.getWord());
 						if (answer4.getWord().getText() == rightAnswer) {
 							radio1.setEnabled(false);
 							radio2.setEnabled(false);

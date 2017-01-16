@@ -9,11 +9,10 @@ public class WordDecoratorGreen extends WordDecorator{
 		super(decoratedWord);
 	}
 
-
 	@Override
-	public void decorate(JLabel label) {
+	public void paint(JLabel label) {
 		label.setForeground(Color.GREEN);
-		super.decorate(label);
+		super.paint(label);
 	}
 
 	@Override
