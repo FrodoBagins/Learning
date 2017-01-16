@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -17,7 +18,9 @@ public class RadioPanelBuilder implements Builder {
 
 	private JPanel panel = new JPanel();
 
-	private JButton nextButton;
+	
+	private IComponentFactory componentFactory = new ComponentFactory();
+	private IComponent nextButton = componentFactory.createComponent("buton", "");
 
 	private IWord answer1;
 	private IWord answer2;
@@ -28,6 +31,8 @@ public class RadioPanelBuilder implements Builder {
 	private String rightAnswer;
 
 	private JPanel buttonPanel = new JPanel();
+	
+	
 	private JRadioButton radio1 = new JRadioButton();
 	private JRadioButton radio2 = new JRadioButton();
 	private JRadioButton radio3 = new JRadioButton();
@@ -35,7 +40,7 @@ public class RadioPanelBuilder implements Builder {
 
 	private List<String[]> wrongAnswers;
 
-	private ButtonGroup group;
+	private ButtonGroup group = new ButtonGroup();
 
 	@Override
 	public void addQuestion(String quest) {
@@ -44,8 +49,11 @@ public class RadioPanelBuilder implements Builder {
 		String question = new String("(Pytanie " + Program.getActualQuestion() + "/"
 				+ Program.getCorrectAnswers().size() + ") Przetłumacz:  " + quest);
 
-		JLabel gameLabel = new JLabel(question, JLabel.CENTER);
-		panel.add(gameLabel, BorderLayout.NORTH);
+		
+		IComponent gameLabel = componentFactory.createComponent("label", question);
+		gameLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		
+		panel.add(gameLabel.getComponent(), BorderLayout.NORTH);
 
 	}
 
@@ -112,6 +120,7 @@ public class RadioPanelBuilder implements Builder {
 		GridLayout layout2 = new GridLayout(3, 3);
 		buttonPanel.setLayout(layout2);
 
+		
 		group.add(radio1);
 		group.add(radio2);
 		
@@ -133,8 +142,8 @@ public class RadioPanelBuilder implements Builder {
 			radio3.setBorder(BorderFactory.createEmptyBorder(0, 250, 50, 0));
 			radio4.setBorder(BorderFactory.createEmptyBorder(0, 250, 50, 0));
 
-			group.add(radio3);
-			group.add(radio4);
+			group.add((AbstractButton) radio3);
+			group.add((AbstractButton) radio4);
 			controlPanel.setLayout(new GridLayout(4, 1));
 			controlPanel.add(radio3);
 			controlPanel.add(answer3.getWord());
@@ -144,7 +153,6 @@ public class RadioPanelBuilder implements Builder {
 		}
 		
 		
-
 		if (Program.getAnswerRadioButton(Program.getActualQuestion()) == 1)
 			radio1.setSelected(true);
 		if (Program.getAnswerRadioButton(Program.getActualQuestion()) == 2)
@@ -153,7 +161,6 @@ public class RadioPanelBuilder implements Builder {
 			radio3.setSelected(true);
 		if (Program.getAnswerRadioButton(Program.getActualQuestion()) == 4)
 			radio4.setSelected(true);
-
 		
 		controlPanel.setSize(100, 100);
 		
@@ -164,17 +171,17 @@ public class RadioPanelBuilder implements Builder {
 	@Override
 	public void addButton(String button) {
 
-		// buttonPanel = new JPanel();
 
 		if (button.equals("EXIT")) {
 
-			JButton exitButton = new JButton();
-			exitButton.setText("EXIT");
+			
+			IComponent exitButton = componentFactory.createComponent("button", "Powrót do menu głównego");
+			
 
 			ActionListener exitListener = new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println("EXIT");
+					
 
 					Program.showMainPanel();
 
@@ -182,16 +189,16 @@ public class RadioPanelBuilder implements Builder {
 			};
 
 			exitButton.addActionListener(exitListener);
-			buttonPanel.add(exitButton);
+			buttonPanel.add(exitButton.getComponent());
 
 		}
 
 		if (button.equals("CHECK")) {
 
-			JButton checkButton = new JButton();
+			
 
-			checkButton.setText("CHECK");
-
+			IComponent checkButton = componentFactory.createComponent("button", "Sprawdź");
+			
 			ActionListener checkListener = new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
@@ -260,40 +267,30 @@ public class RadioPanelBuilder implements Builder {
 
 					}
 
-					System.out.println("CHECK" + selectedAnswerNumber);
 				}
 			};
 
 			checkButton.addActionListener(checkListener);
-			buttonPanel.add(checkButton);
+			buttonPanel.add(checkButton.getComponent());
 		}
 
 		if (button.equals("NEXT")) {
-			nextButton = new JButton();
-			nextButton.setText("NEXT");
+			nextButton = componentFactory.createComponent("button", "Następne pytanie");
 
 			ActionListener nextListener = new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 
-					// if(Program.getActualQuestion()==Program.getQuestionNumber())
-					// {
-
-					// nextButton.setEnabled(false);
-
-					// }
-					// if(Program.getActualQuestion()==Program.getQuestionNumber())
-					// Program.showMainPanel();
 
 					Program.nextLearnStateQuestion();
 
-					System.out.println("NEXT");
+					
 				}
 			};
 
 			nextButton.setEnabled(false);
 			nextButton.addActionListener(nextListener);
-			buttonPanel.add(nextButton);
+			buttonPanel.add(nextButton.getComponent());
 		}
 
 		radio1.addActionListener(new ActionListener() {
@@ -336,9 +333,8 @@ public class RadioPanelBuilder implements Builder {
 			}
 		});
 		if (button.equals("PREV")) {
-			JButton prevButton = new JButton();
-
-			prevButton.setText("PREV");
+			
+			IComponent prevButton = componentFactory.createComponent("button", "Poprzednie pytanie");
 
 			ActionListener prevListener = new ActionListener() {
 				@Override
@@ -351,17 +347,15 @@ public class RadioPanelBuilder implements Builder {
 					if (Program.getActualQuestion() > 1)
 						Program.previousTestStateQuestion();
 
-					System.out.println("PREV");
 				}
 			};
 
 			prevButton.addActionListener(prevListener);
-			buttonPanel.add(prevButton);
+			buttonPanel.add(prevButton.getComponent());
 		}
 
 		if (button.equals("NEXTTEST")) {
-			nextButton = new JButton();
-			nextButton.setText("NEXT");
+			nextButton = componentFactory.createComponent("button", "Następne pytanie");
 			if (Program.getActualQuestion() == Program.getQuestionNumber()) {
 
 				nextButton.setEnabled(false);
@@ -387,13 +381,13 @@ public class RadioPanelBuilder implements Builder {
 			};
 
 			nextButton.addActionListener(nextListener);
-			buttonPanel.add(nextButton);
+			buttonPanel.add(nextButton.getComponent());
 		}
 
 		if (button.equals("SCORE")) {
-			JButton prevButton = new JButton();
+			
+			IComponent prevButton = componentFactory.createComponent("button", "Wynik");
 
-			prevButton.setText("SCORE");
 
 			ActionListener prevListener = new ActionListener() {
 				@Override
@@ -401,12 +395,12 @@ public class RadioPanelBuilder implements Builder {
 
 					Program.setScorePanel();
 
-					System.out.println("SCORE");
+					
 				}
 			};
 
 			prevButton.addActionListener(prevListener);
-			buttonPanel.add(prevButton);
+			buttonPanel.add(prevButton.getComponent());
 		}
 
 		panel.add(buttonPanel, BorderLayout.SOUTH);

@@ -6,6 +6,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
+import javax.swing.border.Border;
 
 public class RadioButton implements IComponent {
 	JRadioButton radioButton;
@@ -60,6 +61,32 @@ public class RadioButton implements IComponent {
 	}
 
 	@Override
+	public void setBorder(Border border) {
+		radioButton.setBorder(border);
+
+	}
+	
+	@Override
+	public void setSelected(boolean b) {
+		radioButton.setSelected(b);
+
+	}
+	
+	@Override
+	public void setEnabled(boolean b) {
+		radioButton.setEnabled(b);
+		
+	}
+	
+	
+	
+	@Override
+	public boolean isSelected() {
+		return radioButton.isSelected();
+
+	}
+	
+	@Override
 	public void setMaximumSize(Dimension dimension) {
 		radioButton.setMaximumSize(dimension);
 
@@ -80,6 +107,18 @@ public class RadioButton implements IComponent {
 	@Override
 	public String getText() {
 		return radioButton.getText();
+	}
+
+	@Override
+	public void setBackground(Color bg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDisabledTextColor(Color bg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

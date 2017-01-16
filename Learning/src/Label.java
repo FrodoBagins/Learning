@@ -6,6 +6,8 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
+import javax.swing.border.Border;
 
 public class Label implements IComponent {
 	JLabel label;
@@ -78,6 +80,43 @@ public class Label implements IComponent {
 	@Override
 	public String getText() {
 		return label.getText();
+	}
+
+	@Override
+	public void setBorder(Border border) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSelected(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isSelected() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setEnabled(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void setBackground(Color bg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDisabledTextColor(Color bg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

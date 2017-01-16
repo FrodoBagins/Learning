@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 
 import javax.swing.JComponent;
+import javax.swing.JRadioButton;
+import javax.swing.border.Border;
 
 public interface IComponent {
 	public void addActionListener(ActionListener actionListener);
@@ -31,4 +33,19 @@ public interface IComponent {
 	public void setFont(Font font);
 
 	public String getText();
+
+	void setBorder(Border border);
+
+	void setSelected(boolean b);
+
+	boolean isSelected();
+
+	void setEnabled(boolean b);
+
+
+	void setBackground(Color bg);
+
+	void setDisabledTextColor(Color bg);
+	
+	
 }

@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 
 import javax.swing.JComponent;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 public class TextField implements IComponent {
 
@@ -57,6 +59,20 @@ public class TextField implements IComponent {
 		textField.setToolTipText(text);
 		
 	}
+	
+	@Override
+	public void setBackground(Color bg){
+		
+		textField.setBackground(bg);
+		
+	}
+	
+	@Override
+	public void setDisabledTextColor(Color bg){
+		
+		textField.setDisabledTextColor(bg);
+		
+	}
 
 	@Override
 	public void setMaximumSize(Dimension dimension) {
@@ -80,5 +96,30 @@ public class TextField implements IComponent {
 	public String getText() {
 		return textField.getText();
 	}
+
+	@Override
+	public void setBorder(Border border) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSelected(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isSelected() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setEnabled(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

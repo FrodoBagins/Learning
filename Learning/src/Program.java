@@ -36,8 +36,7 @@ public class Program extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public static final int QUESTIONS_NUMBER = 3;
 	
-//	private static JPanel mainPanel = new JPanel();
-	
+
 	private static Program program;
 	private static DefaultListModel<String> wordsList;
 	private static IDbOperations dbOperations = new DbAdapter();
@@ -123,6 +122,8 @@ public class Program extends JFrame {
 		program.setActualQuestion(Program.getActualQuestion()+1);
 		
 		JPanel panelLearn = new JPanel();
+		
+
 						
 		state = new LearnState();
 
@@ -185,6 +186,8 @@ public class Program extends JFrame {
 		
 		JPanel mainPanel = new JPanel();
 		
+		IComponentFactory componentFactory = new ComponentFactory();
+		
 		mainPanel.setBackground(Color.white);
 		mainPanel.setBounds(80, 20, 400, 300);
 		mainPanel.setVisible(true);
@@ -195,14 +198,18 @@ public class Program extends JFrame {
 		layout3.setVgap(50);
 
 		mainPanel.setLayout(layout3);
-
-		JLabel gameLabel = new JLabel("Program do nauki słówek", JLabel.CENTER);
+		
+		IComponent gameLabel = componentFactory.createComponent("label", "Program do nauki słówek");
+		gameLabel.setAlignmentX(JLabel.CENTER);
+		
 		gameLabel.setFont(new Font(Font.SANS_SERIF, 0, 30));
 		gameLabel.setBounds(120, 0, 450, 50);
 
-		JLabel modeLabel = new JLabel("Tryb ");
-		JLabel levelLabel = new JLabel("Poziom ");
-		JLabel directionLabel = new JLabel("Kierunek ");
+		
+		IComponent modeLabel = componentFactory.createComponent("label", "Tryb "); 
+		IComponent levelLabel = componentFactory.createComponent("label", "Poziom "); 
+		IComponent directionLabel = componentFactory.createComponent("label", "Kierunek "); 
+		
 
 		modeComboBox = new JComboBox<>();
 		modeComboBox.addItem("Tryb nauki"); // index 0
@@ -218,13 +225,13 @@ public class Program extends JFrame {
 		directionComboBox.addItem("PL -> ANG");// index 0
 		directionComboBox.addItem("ANG -> PL");// index 1
 
-		JButton crudOperationsButton = new JButton("Baza słów");
+		IComponent crudOperationsButton = componentFactory.createComponent("button", "Baza słów");		
 		crudOperationsButton.setBounds(400, 300, 120, 25);
 
-		JButton exitButton = new JButton("Wyjście");
+		IComponent exitButton = componentFactory.createComponent("button", "Wyjście");
 		exitButton.setBounds(200, 300, 80, 25);
 
-		JButton startGame = new JButton("Rozpocznij");
+		IComponent startGame = componentFactory.createComponent("button", "Rozpocznij");
 		startGame.setBounds(300, 270, 120, 25);
 
 		JPanel panel = new JPanel();
@@ -232,11 +239,11 @@ public class Program extends JFrame {
 		layout.setVgap(20);
 		panel.setLayout(layout);
 
-		panel.add(modeLabel);
+		panel.add(modeLabel.getComponent());
 		panel.add(modeComboBox);
-		panel.add(levelLabel);
+		panel.add(levelLabel.getComponent());
 		panel.add(levelComboBox);
-		panel.add(directionLabel);
+		panel.add(directionLabel.getComponent());
 		panel.add(directionComboBox);
 
 		JPanel panel2 = new JPanel();
@@ -245,13 +252,11 @@ public class Program extends JFrame {
 		layout2.setVgap(40);
 		panel2.setLayout(layout2);
 
-		panel2.add(exitButton);
-		panel2.add(startGame);
-		panel2.add(crudOperationsButton);
+		panel2.add(exitButton.getComponent());
+		panel2.add(startGame.getComponent());
+		panel2.add(crudOperationsButton.getComponent());
 
 		
-		
-
 		startGame.addActionListener(new ActionListener() {
 
 			@Override
@@ -267,11 +272,7 @@ public class Program extends JFrame {
 				program.makeQuestions(QUESTIONS_NUMBER);
 				program.makeWrongAnswers(4);
 				program.setQuestionNumber(QUESTIONS_NUMBER);
-		//		program.setScore(0);
 				program.showMeNow();
-				
-			//	Program.selectedComboBox = new int[10]
-				
 				
 				program.setActualQuestion(1);
 				
@@ -299,17 +300,12 @@ public class Program extends JFrame {
   				    panel22 = state.getTestLayout(); 
   				}
 				
-				
-								
 				program.getContentPane().removeAll();
 				System.out.println("powrót do menu");
 				program.getContentPane().setBackground(Color.white);
 				program.setContentPane(panel22);
 				program.revalidate();
 				program.repaint();
-
-
-
 
 			}
 		});
@@ -339,10 +335,9 @@ public class Program extends JFrame {
 		panel.setBackground(Color.white);
 		panel2.setBackground(Color.white);
 		mainPanel.add(panel, BorderLayout.CENTER);
-		mainPanel.add(gameLabel, BorderLayout.NORTH);
+		mainPanel.add(gameLabel.getComponent(), BorderLayout.NORTH);
 		mainPanel.add(panel2, BorderLayout.SOUTH);
 
-	//	program.setContentPane(mainPanel);
 		return mainPanel;
 			
 		

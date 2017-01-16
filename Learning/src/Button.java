@@ -7,6 +7,8 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JRadioButton;
+import javax.swing.border.Border;
 
 public class Button implements IComponent {
 
@@ -81,6 +83,42 @@ public class Button implements IComponent {
 	@Override
 	public String getText() {
 		return button.getText();
+	}
+
+	@Override
+	public void setBorder(Border border) {
+		button.setBorder(border);
+		
+	}
+
+	@Override
+	public void setSelected(boolean b) {
+		button.setSelected(b);
+	}
+
+	@Override
+	public boolean isSelected() {
+			
+		return button.isSelected();
+	}
+
+	@Override
+	public void setEnabled(boolean b) {
+		button.setEnabled(b);
+		
+	}
+
+
+	@Override
+	public void setBackground(Color bg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDisabledTextColor(Color bg) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
